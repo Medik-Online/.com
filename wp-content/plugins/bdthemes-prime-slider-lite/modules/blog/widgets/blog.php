@@ -13,8 +13,12 @@
     use Elementor\Widget_Base;
     use PrimeSlider\Modules\Blog\Skins;
     use PrimeSlider\Prime_Slider_Loader;
-    use PrimeSlider\Utils;
     
+    use PrimeSlider\Traits\Global_Widget_Controls;
+    use PrimeSlider\Traits\QueryControls\GroupQuery\Group_Control_Query;
+    use PrimeSlider\Utils;
+    use WP_Query;
+
     if ( !defined( 'ABSPATH' ) ) {
         exit;
     }
@@ -22,6 +26,9 @@
 // Exit if accessed directly
     
     class Blog extends Widget_Base {
+	
+	    use Group_Control_Query;
+	    use Global_Widget_Controls;
         
         public function get_name() {
             return 'prime-slider-blog';
@@ -52,20 +59,9 @@
         }
         
         public function _register_skins() {
-            
-            $coral = prime_slider_option( 'blog_skin_coral', 'prime_slider_active_modules', 'on' );
-            $zinest = prime_slider_option( 'blog_skin_zinest', 'prime_slider_active_modules', 'on' );
-            $folio = prime_slider_option( 'blog_skin_folio', 'prime_slider_active_modules', 'on' );
-            
-            if ( 'on' == $coral ) {
-                $this->add_skin( new Skins\Skin_Coral( $this ) );
-            }
-            if ( 'on' == $zinest ) {
-                $this->add_skin( new Skins\Skin_Zinest( $this ) );
-            }
-            if ( 'on' == $folio ) {
-                $this->add_skin( new Skins\Skin_Folio( $this ) );
-            }
+            $this->add_skin( new Skins\Skin_Coral( $this ) );
+            $this->add_skin( new Skins\Skin_Zinest( $this ) );
+            $this->add_skin( new Skins\Skin_Folio( $this ) );
         }
         
         protected function _register_controls() {
@@ -354,9 +350,13 @@
                     'label'   => esc_html__( 'Show Category', 'bdthemes-prime-slider' ),
                     'type'    => Controls_Manager::SWITCHER,
                     'default' => 'yes',
-                    // 'condition' => [
-                    //     '_skin' => ['zinest', 'folio'],
-                    // ],
+                ]
+            );
+
+            $this->add_control(
+                'hr_1',
+                [
+                    'type'      => Controls_Manager::DIVIDER,
                 ]
             );
             
@@ -366,9 +366,63 @@
                     'label'   => esc_html__( 'Show Meta', 'bdthemes-prime-slider' ),
                     'type'    => Controls_Manager::SWITCHER,
                     'default' => 'yes',
-                    // 'condition' => [
-                    //     '_skin' => ['zinest', 'folio'],
-                    // ],
+                ]
+            );
+            
+            $this->add_control(
+                'show_author',
+                [
+                    'label'   => esc_html__( 'Show Author', 'bdthemes-prime-slider' ) . BDTPS_NC,
+                    'type'    => Controls_Manager::SWITCHER,
+                    'default' => 'yes',
+                    'condition' => [
+                        '_skin!' => 'folio',
+                        'show_meta' => 'yes'
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'show_admin_info',
+                [
+                    'label'     => esc_html__( 'Show Author', 'bdthemes-prime-slider' ),
+                    'type'      => Controls_Manager::SWITCHER,
+                    'default'   => 'yes',
+                    'condition' => [
+                        '_skin' => 'folio',
+                        'show_meta' => 'yes'
+                    ],
+                ]
+            );
+            
+            $this->add_control(
+                'show_date',
+                [
+                    'label'   => esc_html__( 'Show Date', 'bdthemes-prime-slider' ) . BDTPS_NC,
+                    'type'    => Controls_Manager::SWITCHER,
+                    'default' => 'yes',
+                    'condition' => [
+                        'show_meta' => 'yes'
+                    ],
+                ]
+            );
+            
+            $this->add_control(
+                'show_comments',
+                [
+                    'label'   => esc_html__( 'Show Comments', 'bdthemes-prime-slider' ) . BDTPS_NC,
+                    'type'    => Controls_Manager::SWITCHER,
+                    'default' => 'yes',
+                    'condition' => [
+                        'show_meta' => 'yes'
+                    ],
+                ]
+            );
+
+            $this->add_control(
+                'hr',
+                [
+                    'type'      => Controls_Manager::DIVIDER,
                 ]
             );
             
@@ -380,18 +434,6 @@
                     'default'   => 'yes',
                     'condition' => [
                         '_skin' => 'zinest',
-                    ],
-                ]
-            );
-            
-            $this->add_control(
-                'show_admin_info',
-                [
-                    'label'     => esc_html__( 'Show Admin Meta', 'bdthemes-prime-slider' ),
-                    'type'      => Controls_Manager::SWITCHER,
-                    'default'   => 'yes',
-                    'condition' => [
-                        '_skin' => 'folio',
                     ],
                 ]
             );
@@ -441,15 +483,15 @@
                     'options'   => [
                         'left'   => [
                             'title' => esc_html__( 'Left', 'bdthemes-prime-slider' ),
-                            'icon'  => 'fas fa-align-left',
+                            'icon'  => 'eicon-h-align-left',
                         ],
                         'center' => [
                             'title' => esc_html__( 'Center', 'bdthemes-prime-slider' ),
-                            'icon'  => 'fas fa-align-center',
+                            'icon'  => 'eicon-h-align-center',
                         ],
                         'right'  => [
                             'title' => esc_html__( 'Right', 'bdthemes-prime-slider' ),
-                            'icon'  => 'fas fa-align-right',
+                            'icon'  => 'eicon-h-align-right',
                         ],
                     ],
                     'selectors' => [
@@ -469,15 +511,15 @@
                     'options'   => [
                         'left'     => [
                             'title' => esc_html__( 'Left', 'bdthemes-prime-slider' ),
-                            'icon'  => 'fas fa-align-left',
+                            'icon'  => 'eicon-h-align-left',
                         ],
                         'center'   => [
                             'title' => esc_html__( 'Center', 'bdthemes-prime-slider' ),
-                            'icon'  => 'fas fa-align-center',
+                            'icon'  => 'eicon-h-align-center',
                         ],
                         'flex-end' => [
                             'title' => esc_html__( 'Right', 'bdthemes-prime-slider' ),
-                            'icon'  => 'fas fa-align-right',
+                            'icon'  => 'eicon-h-align-right',
                         ],
                     ],
                     'selectors' => [
@@ -539,12 +581,12 @@
                     'options'   => [
                         'text' => [
                             'title' => esc_html__( 'Text', 'bdthemes-prime-slider' ),
-                            'icon'  => 'fa fa-header',
+                            'icon'  => 'eicon-logo',
                         ],
                         
                         'image' => [
                             'title' => esc_html__( 'Image', 'bdthemes-prime-slider' ),
-                            'icon'  => 'fa fa-picture-o',
+                            'icon'  => 'eicon-image',
                         ],
                     
                     ],
@@ -716,15 +758,15 @@
                     'options'   => [
                         'left'   => [
                             'title' => esc_html__( 'Left', 'bdthemes-prime-slider' ),
-                            'icon'  => 'fas fa-align-left',
+                            'icon'  => 'eicon-h-align-left',
                         ],
                         'center' => [
                             'title' => esc_html__( 'Center', 'bdthemes-prime-slider' ),
-                            'icon'  => 'fas fa-align-center',
+                            'icon'  => 'eicon-h-align-center',
                         ],
                         'right'  => [
                             'title' => esc_html__( 'Right', 'bdthemes-prime-slider' ),
-                            'icon'  => 'fas fa-align-right',
+                            'icon'  => 'eicon-h-align-right',
                         ],
                     ],
                     'selectors' => [
@@ -927,6 +969,8 @@
                         'value'   => 'fas fa-bars',
                         'library' => 'fa-solid',
                     ],
+                    'skin' => 'inline',
+                    'label_block' => false
                 ]
             );
             
@@ -1238,11 +1282,11 @@
                     'options'   => [
                         '960' => [
                             'title' => __( 'On Tablet', 'bdthemes-prime-slider' ),
-                            'icon'  => 'fas fa-tablet',
+                            'icon'  => 'eicon-device-tablet',
                         ],
                         '768' => [
                             'title' => __( 'On Mobile', 'bdthemes-prime-slider' ),
-                            'icon'  => 'fas fa-mobile',
+                            'icon'  => 'eicon-device-mobile',
                         ],
                     ],
                     'condition' => [
@@ -1297,83 +1341,43 @@
             );
             
             $this->end_controls_section();
+	
+	        //New Query Builder Settings
+	        $this->start_controls_section(
+		        'section_post_query_builder',
+		        [
+			        'label' => __( 'Query', 'bdthemes-prime-slider' ) . BDTPS_NC,
+			        'tab' => Controls_Manager::TAB_CONTENT,
+		        ]
+	        );
+
+	        $this->register_query_builder_controls();
             
+            $this->update_control(
+                'posts_limit',
+                [
+                    'type'    => Controls_Manager::NUMBER,
+                    'default' => 3,
+                ]
+            );
+	
+	        $this->end_controls_section();
+	
+	        //Global Widget Controls
             $this->start_controls_section(
                 'section_content_query',
                 [
-                    'label' => esc_html__( 'Query', 'bdthemes-prime-slider' ),
-                ]
-            );
-            
-            $this->add_control(
-                'post_source',
-                [
-                    'label'       => _x( 'Source', 'Posts Query Control', 'bdthemes-prime-slider' ),
-                    'type'        => Controls_Manager::SELECT,
-                    'options'     => [
-                        ''        => esc_html__( 'Show All', 'bdthemes-prime-slider' ),
-                        'by_name' => esc_html__( 'Manual Selection', 'bdthemes-prime-slider' ),
-                    ],
-                    'label_block' => true,
-                ]
-            );
-            
-            $this->add_control(
-                'post_categories',
-                [
-                    'label'       => esc_html__( 'Categories', 'bdthemes-prime-slider' ),
-                    'type'        => Controls_Manager::SELECT2,
-                    'options'     => prime_slider_get_category( 'category' ),
-                    'default'     => [],
-                    'label_block' => true,
-                    'multiple'    => true,
-                    'condition'   => [
-                        'post_source' => 'by_name',
-                    ],
-                ]
-            );
-            
-            $this->add_control(
-                'limit',
-                [
-                    'label'     => esc_html__( 'Limit', 'bdthemes-prime-slider' ),
-                    'type'      => Controls_Manager::NUMBER,
-                    'default'   => 3,
+                    'label' => esc_html__( 'Query (deprecated)', 'bdthemes-prime-slider' ),
                     'condition' => [
-                        '_skin!' => 'zinest',
-                    ],
+						'is_replaced_deprecated_query!' => 'yes'
+					]
                 ]
             );
-            
-            $this->add_control(
-                'orderby',
-                [
-                    'label'   => esc_html__( 'Order by', 'bdthemes-prime-slider' ),
-                    'type'    => Controls_Manager::SELECT,
-                    'default' => 'date',
-                    'options' => [
-                        'date'     => esc_html__( 'Date', 'bdthemes-prime-slider' ),
-                        'title'    => esc_html__( 'Title', 'bdthemes-prime-slider' ),
-                        'category' => esc_html__( 'Category', 'bdthemes-prime-slider' ),
-                        'rand'     => esc_html__( 'Random', 'bdthemes-prime-slider' ),
-                    ],
-                ]
-            );
-            
-            $this->add_control(
-                'order',
-                [
-                    'label'   => esc_html__( 'Order', 'bdthemes-prime-slider' ),
-                    'type'    => Controls_Manager::SELECT,
-                    'default' => 'DESC',
-                    'options' => [
-                        'DESC' => esc_html__( 'Descending', 'bdthemes-prime-slider' ),
-                        'ASC'  => esc_html__( 'Ascending', 'bdthemes-prime-slider' ),
-                    ],
-                ]
-            );
-            
+
+	        $this->register_query_controls();
+
             $this->end_controls_section();
+            
             
             $this->start_controls_section(
                 'section_content_social_link',
@@ -1409,6 +1413,8 @@
                 [
                     'label' => __( 'Choose Icon', 'bdthemes-prime-slider' ),
                     'type'  => Controls_Manager::ICONS,
+                    'skin' => 'inline',
+                    'label_block' => false
                 ]
             );
             
@@ -3235,7 +3241,6 @@
                     'tab'       => Controls_Manager::TAB_STYLE,
                     'condition' => [
                         'show_meta' => 'yes',
-                        // '_skin'     => ['zinest', 'folio'],
                     ],
                 ]
             );
@@ -3842,30 +3847,49 @@
             
             $this->end_controls_section();
         }
-        
-        public function query_posts() {
-            $settings = $this->get_settings();
-            
-            $args = [
-                'post_type'      => 'post',
-                'posts_per_page' => $settings['limit'],
-                'orderby'        => $settings['orderby'],
-                'order'          => $settings['order'],
-                'post_status'    => 'publish',
-            ];
-            
-            if ( 'by_name' === $settings['post_source'] and !empty( $settings['post_categories'] ) ) {
-                $args['tax_query'][] = [
-                    'taxonomy' => 'category',
-                    'field'    => 'slug',
-                    'terms'    => $settings['post_categories'],
-                ];
-            }
-            
-            $query = new \WP_Query( $args );
-            
-            return $query;
-        }
+	
+	
+	    public function query_posts() {
+		    $settings = $this->get_settings();
+		
+		    if ( isset( $settings['is_replaced_deprecated_query'] ) &&
+		         $settings['is_replaced_deprecated_query'] == 'yes' ) {
+			    $args = [];
+			
+			    if ( $settings['posts_limit'] ) {
+				    $args['posts_per_page'] = $settings['posts_limit'];
+				    $args['paged']          = max( 1, get_query_var( 'paged' ), get_query_var( 'page' ) );
+			    }
+			
+			    $default = $this->getGroupControlQueryArgs();
+			    $args = array_merge( $default, $args );
+			
+			    $query = new WP_Query( $args );
+			
+			    return $query;
+			
+		    } else {
+			    $args = [
+				    'post_type'      => 'post',
+				    'posts_per_page' => $settings['limit'],
+				    'orderby'        => $settings['orderby'],
+				    'order'          => $settings['order'],
+				    'post_status'    => 'publish',
+			    ];
+			
+			    if ( 'by_name' === $settings['post_source'] and ! empty( $settings['post_categories'] ) ) {
+				    $args['tax_query'][] = [
+					    'taxonomy' => 'category',
+					    'field'    => 'slug',
+					    'terms'    => $settings['post_categories'],
+				    ];
+			    }
+			
+			    $query = new WP_Query( $args );
+			
+			    return $query;
+		    }
+	    }
         
         public function render_header($skin_name = 'blog') {
             
@@ -4464,10 +4488,10 @@
         public function render_meta() {
             $settings = $this->get_settings_for_display();
             ?>
-            <?php
-            if ( 'yes' == $settings['show_meta'] ) : ?>
+                <?php if ( 'yes' == $settings['show_meta'] ) : ?>
                 <div class="bdt-ps-meta">
                     <div class="bdt-child-width-1-1 bdt-child-width-1-3@s bdt-grid-collapse" bdt-grid>
+                        <?php if ( 'yes' == $settings['show_author'] ) : ?>
                         <div class="bdt-ps-meta-item bdt-flex bdt-flex-middle"
                              bdt-slideshow-parallax="y: 110,0,-110; opacity: 1,1,0">
                             <div class="bdt-meta-icon">
@@ -4482,7 +4506,9 @@
                                 </span>
                             </div>
                         </div>
+                        <?php endif; ?>
 
+                        <?php if ( 'yes' == $settings['show_date'] ) : ?>
                         <div class="bdt-ps-meta-item bdt-flex bdt-flex-middle bdt-visible@s"
                              bdt-slideshow-parallax="y: 140,0,-140; opacity: 1,1,0">
                             <div class="bdt-meta-icon">
@@ -4503,7 +4529,9 @@
                                             </span>
                             </div>
                         </div>
+                        <?php endif; ?>
 
+                        <?php if ( 'yes' == $settings['show_comments'] ) : ?>
                         <div class="bdt-ps-meta-item bdt-flex bdt-flex-middle bdt-visible@s"
                              bdt-slideshow-parallax="y: 170,0,-170; opacity: 1,1,0">
                             <div class="bdt-meta-icon">
@@ -4519,16 +4547,17 @@
                             <div class="bdt-meta-text">
                                             <span>
                                                 <?php
-                                                    esc_html_e( 'Number of Comments', 'bdthemes-prime-slider' ); ?><br>
+                                                    esc_html_e( 'Comments By', 'bdthemes-prime-slider' ); ?><br>
                                                 <?php
                                                     echo get_comments_number(); ?>
                                             </span>
                             </div>
                         </div>
+                        <?php endif; ?>
+
                     </div>
                 </div>
-            <?php
-            endif; ?>
+                <?php endif; ?>
             <?php
         }
         

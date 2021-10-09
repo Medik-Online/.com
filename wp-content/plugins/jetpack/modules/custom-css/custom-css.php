@@ -629,29 +629,6 @@ class Jetpack_Custom_CSS {
 
 		$css = str_replace( array( '\\\00BB \\\0020', '\0BB \020', '0BB 020' ), '\00BB \0020', $css );
 
-		if ( empty( $css ) ) {
-			$css = "/*\n"
-				. wordwrap(
-					/**
-					 * Filter the default message displayed in the Custom CSS editor.
-					 *
-					 * @module custom-css
-					 *
-					 * @since 1.7.0
-					 *
-					 * @param string $str Default Custom CSS editor content.
-					 */
-					apply_filters(
-						'safecss_default_css',
-						__(
-							"Welcome to Custom CSS!\n\nTo learn how this works, see https://wp.me/PEmnE-Bt",
-							'jetpack'
-						)
-					)
-				)
-				. "\n*/";
-		}
-
 		/**
 		 * Filter the Custom CSS returned from the editor.
 		 *
@@ -1622,6 +1599,12 @@ class Jetpack_Safe_CSS {
 		$csstidy->set_cfg( 'merge_selectors', false );
 		$csstidy->set_cfg( 'remove_last_;', false );
 		$csstidy->set_cfg( 'css_level', 'CSS3.0' );
+
+		// Turn off css shorthands and leading zero removal when in block editor context as it breaks block validation.
+		if ( true === isset( $_REQUEST['_gutenberg_nonce'] ) && wp_verify_nonce( $_REQUEST['_gutenberg_nonce'], 'gutenberg_request' ) ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized, WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+			$csstidy->set_cfg( 'optimise_shorthands', 0 );
+			$csstidy->set_cfg( 'preserve_leading_zeros', true );
+		}
 
 		$css = preg_replace( '/\\\\([0-9a-fA-F]{4})/', '\\\\\\\\$1', $css );
 		$css = wp_kses_split( $css, array(), array() );

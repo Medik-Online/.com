@@ -72,6 +72,9 @@ final class Manager
         if ( ps_is_flogia_enabled() ) {
             $modules[] = 'flogia';
         }
+        if ( ps_is_fiestar_enabled() ) {
+            $modules[] = 'fiestar';
+        }
         if ( ps_is_general_enabled() ) {
             $modules[] = 'general';
         }
@@ -89,6 +92,12 @@ final class Manager
         }
         if ( ps_is_sequester_enabled() ) {
             $modules[] = 'sequester';
+        }
+        if ( ps_is_storker_enabled() ) {
+            $modules[] = 'storker';
+        }
+        if ( ps_is_mercury_enabled() ) {
+            $modules[] = 'mercury';
         }
         if ( is_plugin_active( 'woocommerce/woocommerce.php' ) and ps_is_woocommerce_enabled() ) {
             $modules[] = 'woocommerce';

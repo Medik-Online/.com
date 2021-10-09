@@ -1,3 +1,56 @@
+## 2.0 [5th October 2021]
+
+### Added
+
+- Knily Widget Added
+- Marble Widget Added
+- Fiestar Widget Added
+- Mercury Widget Added
+- Search Widget option Added in Prime Slider Dashboard
+- New Query Controls system added in all post type widget
+
+## 1.14.3 [6th September 2021]
+
+### Added
+
+- Storker Widget Added
+- Excerpt Top spacing option added in Crelly skin General Widget
+- Otherview Text show/hide option added in Crelly skin General Widget
+
+## 1.14.2 [12th July 2021]
+
+### Added
+
+- Lightbox show/hide option added in Monster Widget
+- Published By show/hide option added in Flogia Widget
+
+### Fixed
+
+- Editor mode height issue fixed in Custom Slider Widget
+
+## 1.14.1 [12th June 2021]
+
+### Added
+
+- Alter Button and Excerpt option added in General Widget
+- Parallax Animation show/hide option added in General Widget
+- Scrollspy Delay option added in Wooexpand Widget
+- Author, Date, Comments show/hide option added in Blog Widget
+
+### Fixed
+
+- Control not showing issue fixed in General widget
+
+## 1.14.0 [3rd June 2021]
+
+### Added
+
+- Wooexpand Widget added
+
+### Fixed
+
+- Description color issue fixed in Flexure Widget
+
 ## 1.13.1 [20th May 2021]
 
 ### Added

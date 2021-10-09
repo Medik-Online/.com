@@ -62,16 +62,12 @@ class Skin_Locate extends Elementor_Skin_Base {
                     <div id="<?php echo esc_attr($id); ?>_nav">
                         <div class="bdt-flex" <?php echo esc_attr($is_rtl); ?>>
                             <a class="bdt-prime-slider-previous" href="#" bdt-slideshow-item="previous">
-                                <svg width="14" height="24" viewBox="0 0 14 24" xmlns="http://www.w3.org/2000/svg">
-                                    <polyline fill="none" stroke="#000" stroke-width="1.4" points="12.775,1 1.225,12 12.775,23 "></polyline>
-                                </svg>
+                                <i class="ps-wi-arrow-left-5"></i>
                                 <span class="bdt-slider-nav-text"><?php esc_html_e( 'Prev', 'bdthemes-prime-slider' ) ?></span>
                             </a>
                             <a class="bdt-prime-slider-next" href="#" bdt-slideshow-item="next">
                                 <span class="bdt-slider-nav-text"><?php esc_html_e( 'Next', 'bdthemes-prime-slider' ) ?></span>
-                                <svg width="14" height="24" viewBox="0 0 14 24" xmlns="http://www.w3.org/2000/svg">
-                                    <polyline fill="none" stroke="#000" stroke-width="1.4" points="1.225,23 12.775,12 1.225,1 "></polyline>
-                                </svg>
+                                <i class="ps-wi-arrow-right-5"></i>
                             </a>
                         </div>
                     </div>

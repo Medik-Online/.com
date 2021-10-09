@@ -73,24 +73,9 @@ class General extends Widget_Base
     
     public function _register_skins()
     {
-        $slide = prime_slider_option( 'general_skin_slide', 'prime_slider_active_modules', 'on' );
-        $crelly = prime_slider_option( 'general_skin_crelly', 'prime_slider_active_modules', 'on' );
-        $meteor = prime_slider_option( 'general_skin_meteor', 'prime_slider_active_modules', 'on' );
-        
-        if ( 'on' == $slide or 'on' == $crelly or 'on' == $meteor ) {
-            if ( 'on' == $slide ) {
-                $this->add_skin( new Skins\Skin_Slide( $this ) );
-            }
-            if ( 'on' == $crelly ) {
-                $this->add_skin( new Skins\Skin_Crelly( $this ) );
-            }
-            if ( 'on' == $meteor ) {
-                $this->add_skin( new Skins\Skin_Meteor( $this ) );
-            }
-        } else {
-            return [];
-        }
-    
+        $this->add_skin( new Skins\Skin_Slide( $this ) );
+        $this->add_skin( new Skins\Skin_Crelly( $this ) );
+        $this->add_skin( new Skins\Skin_Meteor( $this ) );
     }
     
     private function register_query_section_controls()
@@ -113,6 +98,30 @@ class General extends Widget_Base
             'max' => 1024,
         ],
         ],
+        ] );
+        $this->add_responsive_control( 'content_alignment', [
+            'label'     => esc_html__( 'Alignment', 'bdthemes-prime-slider' ),
+            'type'      => Controls_Manager::CHOOSE,
+            'options'   => [
+            'left'   => [
+            'title' => esc_html__( 'Left', 'bdthemes-prime-slider' ),
+            'icon'  => 'eicon-text-align-left',
+        ],
+            'center' => [
+            'title' => esc_html__( 'Center', 'bdthemes-prime-slider' ),
+            'icon'  => 'eicon-text-align-center',
+        ],
+            'right'  => [
+            'title' => esc_html__( 'Right', 'bdthemes-prime-slider' ),
+            'icon'  => 'eicon-text-align-right',
+        ],
+        ],
+            'selectors' => [
+            '{{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-content *' => 'text-align: {{VALUE}} !important;',
+        ],
+        ] );
+        $this->add_control( 'hr', [
+            'type' => Controls_Manager::DIVIDER,
         ] );
         $this->add_control( 'show_logo', [
             'label'   => esc_html__( 'Show Logo', 'bdthemes-prime-slider' ),
@@ -137,15 +146,27 @@ class General extends Widget_Base
             '_skin'          => '',
         ],
         ] );
-        $this->add_control( 'show_title', [
-            'label'   => esc_html__( 'Show Title', 'bdthemes-prime-slider' ),
-            'type'    => Controls_Manager::SWITCHER,
-            'default' => 'yes',
+        $this->add_control( 'hr_1', [
+            'type' => Controls_Manager::DIVIDER,
         ] );
         $this->add_control( 'show_sub_title', [
             'label'   => esc_html__( 'Show Sub Title', 'bdthemes-prime-slider' ),
             'type'    => Controls_Manager::SWITCHER,
             'default' => 'yes',
+        ] );
+        $this->add_control( 'show_title', [
+            'label'   => esc_html__( 'Show Title', 'bdthemes-prime-slider' ),
+            'type'    => Controls_Manager::SWITCHER,
+            'default' => 'yes',
+        ] );
+        $this->add_control( 'title_html_tag', [
+            'label'     => __( 'Title HTML Tag', 'bdthemes-element-pack' ),
+            'type'      => Controls_Manager::SELECT,
+            'default'   => 'h1',
+            'options'   => prime_slider_title_tags(),
+            'condition' => [
+            'show_title' => 'yes',
+        ],
         ] );
         $this->add_control( 'show_button_text', [
             'label'   => esc_html__( 'Show Button', 'bdthemes-prime-slider' ),
@@ -156,6 +177,18 @@ class General extends Widget_Base
             'label'   => esc_html__( 'Show Excerpt', 'bdthemes-prime-slider' ),
             'type'    => Controls_Manager::SWITCHER,
             'default' => 'yes',
+        ] );
+        $this->add_control( 'show_otherview', [
+            'label'     => esc_html__( 'Show Otherview Text', 'bdthemes-prime-slider' ) . BDTPS_NC,
+            'type'      => Controls_Manager::SWITCHER,
+            'default'   => 'yes',
+            'condition' => [
+            '_skin' => [ 'crelly' ],
+        ],
+        ] );
+        $this->add_control( 'alter_btn_excerpt', [
+            'label' => esc_html__( 'Alter Button and Excerpt', 'bdthemes-prime-slider' ) . BDTPS_NC,
+            'type'  => Controls_Manager::SWITCHER,
         ] );
         $this->add_control( 'show_social_icon', [
             'label'     => esc_html__( 'Show Social Icon', 'bdthemes-prime-slider' ),
@@ -179,36 +212,6 @@ class General extends Widget_Base
             'label'   => esc_html__( 'Show Dots', 'bdthemes-prime-slider' ),
             'type'    => Controls_Manager::SWITCHER,
             'default' => 'yes',
-        ] );
-        $this->add_control( 'title_html_tag', [
-            'label'     => __( 'Title HTML Tag', 'bdthemes-element-pack' ),
-            'type'      => Controls_Manager::SELECT,
-            'default'   => 'h1',
-            'options'   => prime_slider_title_tags(),
-            'condition' => [
-            'show_title' => 'yes',
-        ],
-        ] );
-        $this->add_responsive_control( 'content_alignment', [
-            'label'     => esc_html__( 'Alignment', 'bdthemes-prime-slider' ),
-            'type'      => Controls_Manager::CHOOSE,
-            'options'   => [
-            'left'   => [
-            'title' => esc_html__( 'Left', 'bdthemes-prime-slider' ),
-            'icon'  => 'fas fa-align-left',
-        ],
-            'center' => [
-            'title' => esc_html__( 'Center', 'bdthemes-prime-slider' ),
-            'icon'  => 'fas fa-align-center',
-        ],
-            'right'  => [
-            'title' => esc_html__( 'Right', 'bdthemes-prime-slider' ),
-            'icon'  => 'fas fa-align-right',
-        ],
-        ],
-            'selectors' => [
-            '{{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-content *' => 'text-align: {{VALUE}} !important;',
-        ],
         ] );
         $this->end_controls_section();
         $this->start_controls_section( 'section_content_header', [
@@ -243,11 +246,11 @@ class General extends Widget_Base
             'options'   => [
             'text'  => [
             'title' => esc_html__( 'Text', 'bdthemes-prime-slider' ),
-            'icon'  => 'fa fa-header',
+            'icon'  => 'eicon-logo',
         ],
             'image' => [
             'title' => esc_html__( 'Image', 'bdthemes-prime-slider' ),
-            'icon'  => 'fa fa-picture-o',
+            'icon'  => 'eicon-image',
         ],
         ],
             'default'   => 'text',
@@ -378,15 +381,15 @@ class General extends Widget_Base
             'options'   => [
             'left'   => [
             'title' => esc_html__( 'Left', 'bdthemes-prime-slider' ),
-            'icon'  => 'fas fa-align-left',
+            'icon'  => 'eicon-text-align-left',
         ],
             'center' => [
             'title' => esc_html__( 'Center', 'bdthemes-prime-slider' ),
-            'icon'  => 'fas fa-align-center',
+            'icon'  => 'eicon-text-align-center',
         ],
             'right'  => [
             'title' => esc_html__( 'Right', 'bdthemes-prime-slider' ),
-            'icon'  => 'fas fa-align-right',
+            'icon'  => 'eicon-text-align-right',
         ],
         ],
             'selectors' => [
@@ -551,11 +554,11 @@ class General extends Widget_Base
             'options'   => [
             'left'  => [
             'title' => esc_html__( 'Left', 'bdthemes-prime-slider' ),
-            'icon'  => 'fa fa-align-left',
+            'icon'  => 'eicon-text-align-left',
         ],
             'right' => [
             'title' => esc_html__( 'Right', 'bdthemes-prime-slider' ),
-            'icon'  => 'fa fa-align-right',
+            'icon'  => 'eicon-text-align-right',
         ],
         ],
             'condition' => [
@@ -801,11 +804,11 @@ class General extends Widget_Base
             'options'   => [
             '960' => [
             'title' => __( 'On Tablet', 'bdthemes-prime-slider' ),
-            'icon'  => 'fas fa-tablet',
+            'icon'  => 'eicon-device-tablet',
         ],
             '768' => [
             'title' => __( 'On Mobile', 'bdthemes-prime-slider' ),
-            'icon'  => 'fas fa-mobile',
+            'icon'  => 'eicon-device-mobile',
         ],
         ],
             'condition' => [
@@ -915,19 +918,19 @@ class General extends Widget_Base
             'options' => [
             'color'   => [
             'title' => esc_html__( 'Color', 'bdthemes-prime-slider' ),
-            'icon'  => 'fa fa-paint-brush',
+            'icon'  => 'eicon-paint-brush',
         ],
             'image'   => [
             'title' => esc_html__( 'Image', 'bdthemes-prime-slider' ),
-            'icon'  => 'fa fa-picture-o',
+            'icon'  => 'eicon-image',
         ],
             'video'   => [
             'title' => esc_html__( 'Video', 'bdthemes-prime-slider' ),
-            'icon'  => 'fa fa-play-circle',
+            'icon'  => 'eicon-play',
         ],
             'youtube' => [
             'title' => esc_html__( 'Youtube', 'bdthemes-prime-slider' ),
-            'icon'  => 'fa fa-youtube',
+            'icon'  => 'eicon-youtube',
         ],
         ],
         ] );
@@ -1237,6 +1240,12 @@ class General extends Widget_Base
             'condition' => [
             '_skin!' => 'slide',
         ],
+        ] );
+        $this->add_control( 'animation_parallax', [
+            'label'     => esc_html__( 'Parallax Animation', 'bdthemes-element-pack' ) . BDTPS_NC,
+            'type'      => Controls_Manager::SWITCHER,
+            'default'   => 'yes',
+            'separator' => 'before',
         ] );
         $this->add_control( 'kenburns_animation', [
             'label'     => esc_html__( 'Kenburns Animation', 'bdthemes-prime-slider' ),
@@ -2017,6 +2026,22 @@ class General extends Widget_Base
             '_skin' => [ 'crelly' ],
         ],
         ] );
+        $this->add_responsive_control( 'excerpt_title_spacing', [
+            'label'     => esc_html__( 'Top Spacing', 'bdthemes-prime-slider' ) . BDTPS_NC,
+            'type'      => Controls_Manager::SLIDER,
+            'range'     => [
+            'px' => [
+            'min' => 0,
+            'max' => 200,
+        ],
+        ],
+            'selectors' => [
+            '{{WRAPPER}} .bdt-prime-slider-skin-crelly .bdt-slider-excerpt-content' => 'margin-top: {{SIZE}}{{UNIT}};',
+        ],
+            'condition' => [
+            '_skin' => [ 'crelly' ],
+        ],
+        ] );
         $this->add_control( 'excerpt_background_color', [
             'label'     => esc_html__( 'Primary Background', 'bdthemes-prime-slider' ),
             'type'      => Controls_Manager::COLOR,
@@ -2529,6 +2554,7 @@ class General extends Widget_Base
         $this->end_controls_tab();
         $this->end_controls_tabs();
         $this->end_controls_section();
+        //Navigation
         $this->start_controls_section( 'section_style_navigation', [
             'label'      => __( 'Navigation', 'bdthemes-prime-slider' ),
             'tab'        => Controls_Manager::TAB_STYLE,
@@ -3538,9 +3564,16 @@ class General extends Widget_Base
     public function render_item_content( $slide_content )
     {
         $settings = $this->get_settings_for_display();
-        $parallax_sub_title = 'bdt-slideshow-parallax="x: 50,0,-10; opacity: 1,1,0"';
-        $parallax_title = 'bdt-slideshow-parallax="x: 100,0,-20; opacity: 1,1,0"';
-        $parallax_excerpt = 'bdt-slideshow-parallax="y: 50,0,-10; opacity: 1,1,0"';
+        $parallax_button = $parallax_sub_title = $parallax_title = $parallax_inner_excerpt = $parallax_excerpt = '';
+        
+        if ( $settings['animation_parallax'] == 'yes' ) {
+            $parallax_sub_title = 'bdt-slideshow-parallax="x: 50,0,-10; opacity: 1,1,0"';
+            $parallax_title = 'bdt-slideshow-parallax="x: 100,0,-20; opacity: 1,1,0"';
+            $parallax_inner_excerpt = 'bdt-slideshow-parallax="x: 120,0,-30; opacity: 1,1,0"';
+            $parallax_excerpt = 'bdt-slideshow-parallax="y: 50,0,-10; opacity: 1,1,0"';
+            $parallax_button = 'bdt-slideshow-parallax="x: 150,0,-30; opacity: 1,1,0"';
+        }
+        
         $this->add_render_attribute( 'slide_content_animate', 'class', 'bdt-prime-slider-content' );
         $this->add_render_attribute(
             [
@@ -3620,7 +3653,25 @@ class General extends Widget_Base
         
         ?>
 
-						<div bdt-slideshow-parallax="x: 150,0,-30; opacity: 1,1,0">
+						<?php 
+        
+        if ( $slide_content['excerpt'] && 'yes' == $settings['show_excerpt'] && 'yes' == $settings['alter_btn_excerpt'] ) {
+            ?>
+							<div class="bdt-slider-excerpt" <?php 
+            echo  $parallax_inner_excerpt ;
+            ?>>
+								<?php 
+            echo  wp_kses_post( $slide_content['excerpt'] ) ;
+            ?>
+							</div>
+						<?php 
+        }
+        
+        ?>
+
+						<div <?php 
+        echo  $parallax_button ;
+        ?>>
 							<div class="bdt-btn-wrapper">
 								<?php 
         $this->render_button( $slide_content );
@@ -3631,7 +3682,7 @@ class General extends Widget_Base
 
 					<?php 
         
-        if ( $slide_content['excerpt'] && 'yes' == $settings['show_excerpt'] ) {
+        if ( $slide_content['excerpt'] && 'yes' == $settings['show_excerpt'] && '' == $settings['alter_btn_excerpt'] ) {
             ?>
 						<div class="bdt-slider-excerpt" <?php 
             echo  $parallax_excerpt ;

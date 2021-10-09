@@ -159,11 +159,11 @@ class Multiscroll extends Widget_Base {
 				'options' => [
 					'color' => [
 						'title' => esc_html__( 'Color', 'bdthemes-element-pack' ),
-						'icon'  => 'fas fa-paint-brush',
+						'icon'  => 'eicon-paint-brush',
 					],
 					'image' => [
 						'title' => esc_html__( 'Image', 'bdthemes-element-pack' ),
-						'icon'  => 'fas fa-image',
+						'icon'  => 'eicon-image',
 					],
 				],
 			]
@@ -207,11 +207,11 @@ class Multiscroll extends Widget_Base {
 				'options' => [
 					'color' => [
 						'title' => esc_html__( 'Color', 'bdthemes-element-pack' ),
-						'icon'  => 'fas fa-paint-brush',
+						'icon'  => 'eicon-paint-brush',
 					],
 					'image' => [
 						'title' => esc_html__( 'Image', 'bdthemes-element-pack' ),
-						'icon'  => 'fas fa-image',
+						'icon'  => 'eicon-image',
 					],
 				],
 			]
@@ -384,19 +384,19 @@ class Multiscroll extends Widget_Base {
 				'options' => [
 					'left' => [
 						'title' => __( 'Left', 'bdthemes-prime-slider' ),
-						'icon'  => 'fas fa-align-left',
+						'icon'  => 'eicon-text-align-left',
 					],
 					'center' => [
 						'title' => __( 'Center', 'bdthemes-prime-slider' ),
-						'icon'  => 'fas fa-align-center',
+						'icon'  => 'eicon-text-align-center',
 					],
 					'right' => [
 						'title' => __( 'Right', 'bdthemes-prime-slider' ),
-						'icon'  => 'fas fa-align-right',
+						'icon'  => 'eicon-text-align-right',
 					],
 					'justify' => [
 						'title' => __( 'Justified', 'bdthemes-prime-slider' ),
-						'icon'  => 'fas fa-align-justify',
+						'icon'  => 'eicon-text-align-justify',
 					],
 				],
 				'selectors' => [

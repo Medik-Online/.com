@@ -126,7 +126,14 @@ class RegistrationAuth
             }
 
             if (in_array($key, $valid_userdata)) {
-                $segregated_userdata[$key] = sanitize_text_field($value);
+
+                if (in_array($key, ['reg_email', 'reg_email2'])) {
+                    $segregated_userdata[$key] = sanitize_email($value);
+                    continue;
+                }
+
+                // sanitize_textarea_field is used to preserve any line breaks
+                $segregated_userdata[$key] = sanitize_textarea_field($value);
             }
         }
 
@@ -191,8 +198,10 @@ class RegistrationAuth
                 $real_userdata['role'] = $role;
             }
         } else {
+
+            $builder_role = FormRepository::get_form_meta($form_id, FormRepository::REGISTRATION_TYPE, FormRepository::REGISTRATION_USER_ROLE);
+
             if ( ! empty($builder_role)) {
-                $builder_role = FormRepository::get_form_meta($form_id, FormRepository::REGISTRATION_TYPE, FormRepository::REGISTRATION_USER_ROLE);
                 // only set user role if the registration form has one set
                 // otherwise no role is set for the user thus wp_insert_user will use the default user role set in Settings > General
                 $real_userdata['role'] = $builder_role;
@@ -248,7 +257,7 @@ class RegistrationAuth
                 if ( ! in_array($key, $valid_userdata)) {
 
                     if (in_array($key, array_keys(ppress_custom_fields_key_value_pair(true)))) {
-                        $custom_usermeta[$key] = is_array($value) ? array_map('sanitize_text_field', $value) : sanitize_text_field($value);
+                        $custom_usermeta[$key] = is_array($value) ? array_map('sanitize_textarea_field', $value) : sanitize_textarea_field($value);
                     }
                 }
             }

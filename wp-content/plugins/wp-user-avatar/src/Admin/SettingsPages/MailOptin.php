@@ -213,7 +213,7 @@ class MailOptin
                     ),
                 )
             ),
-            esc_url($this->config['lite_download_url'])
+            esc_url_raw($this->config['lite_download_url'])
         );
 
         $error_could_not_activate = sprintf(
@@ -225,7 +225,7 @@ class MailOptin
                     ),
                 )
             ),
-            esc_url(admin_url('plugins.php'))
+            esc_url_raw(admin_url('plugins.php'))
         );
 
         return array(

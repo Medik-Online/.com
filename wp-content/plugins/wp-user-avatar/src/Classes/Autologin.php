@@ -16,7 +16,7 @@ class Autologin
      * @param string $login_id
      * @param string $redirect
      *
-     * @return  mixed
+     * @return  void|mixed
      */
     public static function initialize($user_id, $login_id = '', $redirect = '')
     {
@@ -38,12 +38,10 @@ class Autologin
                     }
                 }
 
-                if (defined('FORCE_SSL_ADMIN') && FORCE_SSL_ADMIN === true) {
-                    $secure_cookie = true;
-                }
-
                 wp_set_auth_cookie($user_id, true, $secure_cookie);
                 wp_set_current_user($user_id);
+
+                get_user_by('id', $user_id);
             }
 
             do_action('ppress_before_auto_login_redirect', $login_id, $user_id);

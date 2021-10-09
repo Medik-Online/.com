@@ -26,30 +26,6 @@ class Skin_Zinest extends Elementor_Skin_Base {
         <?php
     }
 
-    public function query_posts() {
-        $settings = $this->parent->get_settings();
-
-        $args = array(
-            'post_type'      => 'post',
-            'posts_per_page' => 3,
-            'orderby'        => $settings['orderby'],
-            'order'          => $settings['order'],
-            'post_status'    => 'publish'
-        );
-
-        if ( 'by_name' === $settings['post_source'] and !empty($settings['post_categories']) ) {
-            $args['tax_query'][] = array(
-                'taxonomy' => 'category',
-                'field'    => 'slug',
-                'terms'    => $settings['post_categories'],
-            );
-        }
-
-        $query = new \WP_Query($args);
-
-        return $query;
-    }
-
     public function render_navigation_arrows() {
         $settings = $this->parent->get_settings_for_display();
 

@@ -7,11 +7,18 @@ use Elementor\Controls_Manager;
 use Elementor\Group_Control_Typography;
 use Elementor\Group_Control_Border;
 use Elementor\Group_Control_Image_Size;
+
+use PrimeSlider\Traits\Global_Widget_Controls;
+use PrimeSlider\Traits\QueryControls\GroupQuery\Group_Control_Query;
 use PrimeSlider\Utils;
+use WP_Query;
 
 if ( !defined('ABSPATH') ) exit; // Exit if accessed directly
 
 class Flogia extends Widget_Base {
+
+    use Group_Control_Query;
+	use Global_Widget_Controls;
 
     public function get_name() {
         return 'prime-slider-flogia';
@@ -255,9 +262,21 @@ class Flogia extends Widget_Base {
         $this->add_control(
             'show_admin_info',
             [
-                'label'   => esc_html__('Show Admin Meta', 'bdthemes-prime-slider'),
+                'label'   => esc_html__('Show Author Meta', 'bdthemes-prime-slider'),
                 'type'    => Controls_Manager::SWITCHER,
                 'default' => 'yes',
+            ]
+        );
+
+        $this->add_control(
+            'published_by',
+            [
+                'label'   => esc_html__('Published By', 'bdthemes-prime-slider') . BDTPS_NC,
+                'type'    => Controls_Manager::SWITCHER,
+                'default' => 'yes',
+                'condition' => [
+                    'show_admin_info' => 'yes'
+                ]
             ]
         );
 
@@ -300,15 +319,15 @@ class Flogia extends Widget_Base {
                 'options'   => [
                     'left'   => [
                         'title' => esc_html__('Left', 'bdthemes-prime-slider'),
-                        'icon'  => 'fas fa-align-left',
+                        'icon'  => 'eicon-text-align-left',
                     ],
                     'center' => [
                         'title' => esc_html__('Center', 'bdthemes-prime-slider'),
-                        'icon'  => 'fas fa-align-center',
+                        'icon'  => 'eicon-text-align-center',
                     ],
                     'right'  => [
                         'title' => esc_html__('Right', 'bdthemes-prime-slider'),
-                        'icon'  => 'fas fa-align-right',
+                        'icon'  => 'eicon-text-align-right',
                     ],
                 ],
                 'selectors' => [
@@ -325,15 +344,15 @@ class Flogia extends Widget_Base {
                 'options'   => [
                     'left'     => [
                         'title' => esc_html__('Left', 'bdthemes-prime-slider'),
-                        'icon'  => 'fas fa-align-left',
+                        'icon'  => 'eicon-text-align-left',
                     ],
                     'center'   => [
                         'title' => esc_html__('Center', 'bdthemes-prime-slider'),
-                        'icon'  => 'fas fa-align-center',
+                        'icon'  => 'eicon-text-align-center',
                     ],
                     'flex-end' => [
                         'title' => esc_html__('Right', 'bdthemes-prime-slider'),
-                        'icon'  => 'fas fa-align-right',
+                        'icon'  => 'eicon-text-align-right',
                     ],
                 ],
                 'selectors' => [
@@ -345,81 +364,41 @@ class Flogia extends Widget_Base {
 
         $this->end_controls_section();
 
+        //New Query Builder Settings
+        $this->start_controls_section(
+            'section_post_query_builder',
+            [
+                'label' => __( 'Query', 'bdthemes-prime-slider' ) . BDTPS_NC,
+                'tab' => Controls_Manager::TAB_CONTENT,
+            ]
+        );
+
+        $this->register_query_builder_controls();
+
+        $this->end_controls_section();
+
+        //Global Widget Controls
         $this->start_controls_section(
             'section_content_query',
             [
-                'label' => esc_html__('Query', 'bdthemes-prime-slider'),
+                'label' => esc_html__( 'Query (deprecated)', 'bdthemes-prime-slider' ),
+                'condition' => [
+                    'is_replaced_deprecated_query!' => 'yes'
+                ]
             ]
         );
 
-        $this->add_control(
-            'post_source',
-            [
-                'label'       => _x('Source', 'Posts Query Control', 'bdthemes-prime-slider'),
-                'type'        => Controls_Manager::SELECT,
-                'options'     => [
-                    ''        => esc_html__('Show All', 'bdthemes-prime-slider'),
-                    'by_name' => esc_html__('Manual Selection', 'bdthemes-prime-slider'),
-                ],
-                'label_block' => true,
-            ]
-        );
+        $this->register_query_controls();
 
-
-        $this->add_control(
-            'post_categories',
-            [
-                'label'       => esc_html__('Categories', 'bdthemes-prime-slider'),
-                'type'        => Controls_Manager::SELECT2,
-                'options'     => prime_slider_get_category('category'),
-                'default'     => [],
-                'label_block' => true,
-                'multiple'    => true,
-                'condition'   => [
-                    'post_source' => 'by_name',
-                ],
-            ]
-        );
-
-        $this->add_control(
+        $this->update_control(
             'limit',
             [
-                'label'   => esc_html__('Limit', 'bdthemes-prime-slider'),
-                'type'    => Controls_Manager::NUMBER,
-                'default' => 7,
-            ]
-        );
-
-        $this->add_control(
-            'orderby',
-            [
-                'label'   => esc_html__('Order by', 'bdthemes-prime-slider'),
-                'type'    => Controls_Manager::SELECT,
-                'default' => 'date',
-                'options' => [
-                    'date'     => esc_html__('Date', 'bdthemes-prime-slider'),
-                    'title'    => esc_html__('Title', 'bdthemes-prime-slider'),
-                    'category' => esc_html__('Category', 'bdthemes-prime-slider'),
-                    'rand'     => esc_html__('Random', 'bdthemes-prime-slider'),
-                ],
-            ]
-        );
-
-        $this->add_control(
-            'order',
-            [
-                'label'   => esc_html__('Order', 'bdthemes-prime-slider'),
-                'type'    => Controls_Manager::SELECT,
-                'default' => 'DESC',
-                'options' => [
-                    'DESC' => esc_html__('Descending', 'bdthemes-prime-slider'),
-                    'ASC'  => esc_html__('Ascending', 'bdthemes-prime-slider'),
-                ],
+                'type'      => Controls_Manager::NUMBER,
+                'default'   => 5,
             ]
         );
 
         $this->end_controls_section();
-
 
         $this->start_controls_section(
             'section_style_animation',
@@ -1114,27 +1093,45 @@ class Flogia extends Widget_Base {
     }
 
     public function query_posts() {
-        $settings = $this->get_settings_for_display();
-
-        $args = array(
-            'post_type'      => 'post',
-            'posts_per_page' => $settings['limit'],
-            'orderby'        => $settings['orderby'],
-            'order'          => $settings['order'],
-            'post_status'    => 'publish'
-        );
-
-        if ( 'by_name' === $settings['post_source'] and !empty($settings['post_categories']) ) {
-            $args['tax_query'][] = array(
-                'taxonomy' => 'category',
-                'field'    => 'slug',
-                'terms'    => $settings['post_categories'],
-            );
+        $settings = $this->get_settings();
+    
+        if ( isset( $settings['is_replaced_deprecated_query'] ) &&
+             $settings['is_replaced_deprecated_query'] == 'yes' ) {
+            $args = [];
+        
+            if ( $settings['posts_limit'] ) {
+                $args['posts_per_page'] = $settings['posts_limit'];
+                $args['paged']          = max( 1, get_query_var( 'paged' ), get_query_var( 'page' ) );
+            }
+        
+            $default = $this->getGroupControlQueryArgs();
+            $args = array_merge( $default, $args );
+        
+            $query = new WP_Query( $args );
+        
+            return $query;
+        
+        } else {
+            $args = [
+                'post_type'      => 'post',
+                'posts_per_page' => $settings['limit'],
+                'orderby'        => $settings['orderby'],
+                'order'          => $settings['order'],
+                'post_status'    => 'publish',
+            ];
+        
+            if ( 'by_name' === $settings['post_source'] and ! empty( $settings['post_categories'] ) ) {
+                $args['tax_query'][] = [
+                    'taxonomy' => 'category',
+                    'field'    => 'slug',
+                    'terms'    => $settings['post_categories'],
+                ];
+            }
+        
+            $query = new WP_Query( $args );
+        
+            return $query;
         }
-
-        $query = new \WP_Query($args);
-
-        return $query;
     }
 
     public function render_header($skin_name = 'flogia') {
@@ -1352,8 +1349,11 @@ public function render_footer() {
                   <?php echo get_avatar(get_the_author_meta('ID'), 32); ?>
               </div>
               <div class="bdt-meta-author bdt-flex bdt-flex-middle">
-                <span
-                    class="bdt-author"><?php esc_html_e('Published by&nbsp;', 'bdthemes-prime-slider'); ?><?php echo esc_attr(get_the_author()); ?> </span>
+                <span class="bdt-author">
+                <?php if ($settings['published_by'] == 'yes') : ?>
+                <?php esc_html_e('Published by ', 'bdthemes-prime-slider'); ?>
+                <?php endif; ?>
+                <?php echo esc_attr(get_the_author()); ?> </span>
               </div>
             </div>
           <?php endif; ?>

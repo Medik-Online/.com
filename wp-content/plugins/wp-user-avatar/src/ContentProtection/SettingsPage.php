@@ -65,6 +65,8 @@ class SettingsPage extends AbstractSettingsPage
 
         add_screen_option('per_page', $args);
 
+        add_filter('screen_options_show_screen', '__return_false');
+
         $this->myListTable = new WPListTable();
     }
 

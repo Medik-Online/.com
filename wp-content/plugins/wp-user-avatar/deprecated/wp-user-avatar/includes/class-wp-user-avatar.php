@@ -36,7 +36,7 @@ class WP_User_Avatar
 
                 return ob_get_clean();
 
-            }, 9999999999999999999, 2);
+            }, PHP_INT_MAX - 1, 2);
             // Admin scripts
             $pages = array('profile.php', 'options-discussion.php', 'user-edit.php', 'user-new.php');
 
@@ -52,8 +52,6 @@ class WP_User_Avatar
             if ( ! $this->wpua_is_author_or_above()) {
                 // Upload errors
                 add_action('user_profile_update_errors', array($this, 'wpua_upload_errors'), 10, 3);
-                // Prefilter upload size. @see https://developer.wordpress.org/reference/hooks/wp_handle_upload_prefilter/#comment-2359
-                add_filter('wp_handle_upload_prefilter', array($this, 'wpua_handle_upload_prefilter'));
             }
         }
 
@@ -224,10 +222,11 @@ class WP_User_Avatar
      *
      * @return object $file
      */
-    public function wpua_handle_upload_prefilter($file)
+    public static function wpua_handle_upload_prefilter($file)
     {
         global $wpua_upload_size_limit;
         $size = $file['size'];
+
         if ( ! empty($size) && $size > $wpua_upload_size_limit) {
             /**
              * Error handling that only appears on front pages
@@ -299,6 +298,12 @@ class WP_User_Avatar
 
             // Create attachment from upload
             if (isset($_POST['submit']) && $_POST['submit'] && ! empty($_FILES['wpua-file'])) {
+
+                if ( ! $wp_user_avatar->wpua_is_author_or_above()) {
+                    // Prefilter upload size. @see https://developer.wordpress.org/reference/hooks/wp_handle_upload_prefilter/#comment-2359
+                    add_filter('wp_handle_upload_prefilter', array(__CLASS__, 'wpua_handle_upload_prefilter'));
+                }
+
                 $name       = $_FILES['wpua-file']['name'];
                 $file       = wp_handle_upload($_FILES['wpua-file'], array('test_form' => false));
                 $type       = $_FILES['wpua-file']['type'];

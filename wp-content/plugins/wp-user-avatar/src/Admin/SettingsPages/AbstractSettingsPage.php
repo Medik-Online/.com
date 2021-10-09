@@ -79,6 +79,10 @@ abstract class AbstractSettingsPage
             ]
         ];
 
+        if (defined('MAILOPTIN_DETACH_LIBSODIUM')) {
+            unset($sidebar_args[1]);
+        }
+
         return $sidebar_args;
     }
 
@@ -138,26 +142,35 @@ abstract class AbstractSettingsPage
         <?php
     }
 
-    protected function page_dropdown($id, $appends = [], $args = [])
+    protected function page_dropdown($id, $appends = [], $args = ['skip_append_default_select' => false])
     {
+        $default_args = [
+            'name'             => PPRESS_SETTINGS_DB_OPTION_NAME . "[$id]",
+            'show_option_none' => esc_html__('Select...', 'wp-user-avatar'),
+            'selected'         => ppress_get_setting($id, ''),
+            'echo'             => false
+        ];
+
+        if ( ! empty($appends)) {
+            unset($default_args['show_option_none']);
+        }
+
         $html = wp_dropdown_pages(
-            array_replace(
-                [
-                    'name'             => PPRESS_SETTINGS_DB_OPTION_NAME . "[$id]",
-                    'show_option_none' => esc_html__('Select...', 'wp-user-avatar'),
-                    'selected'         => ppress_get_setting($id, ''),
-                    'echo'             => false
-                ],
-                $args
-            )
+            array_replace($default_args, $args)
         );
 
         if ( ! empty($appends)) {
             $addition = '';
+
+            if (ppress_var($args, 'skip_append_default_select') === false) {
+                $addition .= '<option value="">' . esc_html__('Select...', 'wp-user-avatar') . '</option>';
+            }
+
             foreach ($appends as $append) {
-                $key      = $append['key'];
-                $label    = $append['label'];
-                $addition .= "<option value=\"$key\"" . selected(ppress_get_setting($id), $key, false) . '>' . $label . '</option>';
+                $key           = $append['key'];
+                $label         = $append['label'];
+                $disabled_attr = ppress_var($append, 'disabled') === true ? ' disabled' : '';
+                $addition      .= "<option value=\"$key\"" . selected(ppress_get_setting($id), $key, false) . $disabled_attr . '>' . $label . '</option>';
             }
 
             $html = ppress_append_option_to_select($addition, $html);

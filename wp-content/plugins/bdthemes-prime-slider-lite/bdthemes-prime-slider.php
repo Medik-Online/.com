@@ -4,14 +4,14 @@
  * Plugin Name: Prime Slider
  * Plugin URI: https://primeslider.pro/
  * Description: Prime Slider is a packed of elementor widget that gives you some awesome header and slider combination for your website.
- * Version: 1.13.1
+ * Version: 2.0.0
  * Author: BdThemes
  * Author URI: https://bdthemes.com/
- * Text Domain: bdthemes-prime-slider-lite
+ * Text Domain: bdthemes-prime-slider
  * Domain Path: /languages
  * License: GPL3
  * Elementor requires at least: 3.0.0
- * Elementor tested up to: 3.2.3
+ * Elementor tested up to: 3.4.4
  *
  */
 
@@ -30,7 +30,7 @@ if ( function_exists( 'bdt_ps' ) ) {
                 require_once dirname( __FILE__ ) . '/freemius/start.php';
                 $bdt_ps = fs_dynamic_init( array(
                     'id'              => '4929',
-                    'slug'            => 'bdthemes-prime-slider-lite',
+                    'slug'            => 'bdthemes-prime-slider',
                     'premium_slug'    => 'bdthemes-prime-slider',
                     'type'            => 'plugin',
                     'public_key'      => 'pk_63d316bc5d81a4c5a175ea7650d2b',
@@ -57,12 +57,13 @@ if ( function_exists( 'bdt_ps' ) ) {
     }
     
     // Some pre define value for easy use
-    define( 'BDTPS_VER', '1.13.1' );
+    define( 'BDTPS_VER', '2.0.0' );
     define( 'BDTPS__FILE__', __FILE__ );
     define( 'BDTPS_PNAME', basename( dirname( BDTPS__FILE__ ) ) );
     define( 'BDTPS_PBNAME', plugin_basename( BDTPS__FILE__ ) );
     define( 'BDTPS_PATH', plugin_dir_path( BDTPS__FILE__ ) );
     define( 'BDTPS_MODULES_PATH', BDTPS_PATH . 'modules/' );
+    define( 'BDTPS_INC_PATH', BDTPS_PATH . 'includes/' );
     define( 'BDTPS_URL', plugins_url( '/', BDTPS__FILE__ ) );
     define( 'BDTPS_ASSETS_URL', BDTPS_URL . 'assets/' );
     define( 'BDTPS_MODULES_URL', BDTPS_URL . 'modules/' );
@@ -75,7 +76,7 @@ if ( function_exists( 'bdt_ps' ) ) {
      */
     function prime_slider_load_plugin()
     {
-        load_plugin_textdomain( 'bdthemes-prime-slider-lite', false, basename( dirname( __FILE__ ) ) . '/languages' );
+        load_plugin_textdomain( 'bdthemes-prime-slider', false, basename( dirname( __FILE__ ) ) . '/languages' );
         
         if ( !did_action( 'elementor/loaded' ) ) {
             add_action( 'admin_notices', 'prime_slider_fail_load' );
@@ -107,15 +108,15 @@ if ( function_exists( 'bdt_ps' ) ) {
                 return;
             }
             $activation_url = wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin );
-            $admin_message = '<p>' . esc_html__( 'Ops! Prime Slider not working because you need to activate the Elementor plugin first.', 'bdthemes-prime-slider-lite' ) . '</p>';
-            $admin_message .= '<p>' . sprintf( '<a href="%s" class="button-primary">%s</a>', $activation_url, esc_html__( 'Activate Elementor Now', 'bdthemes-prime-slider-lite' ) ) . '</p>';
+            $admin_message = '<p>' . esc_html__( 'Ops! Prime Slider not working because you need to activate the Elementor plugin first.', 'bdthemes-prime-slider' ) . '</p>';
+            $admin_message .= '<p>' . sprintf( '<a href="%s" class="button-primary">%s</a>', $activation_url, esc_html__( 'Activate Elementor Now', 'bdthemes-prime-slider' ) ) . '</p>';
         } else {
             if ( !current_user_can( 'install_plugins' ) ) {
                 return;
             }
             $install_url = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=elementor' ), 'install-plugin_elementor' );
-            $admin_message = '<p>' . esc_html__( 'Ops! Prime Slider not working because you need to install the Elementor plugin', 'bdthemes-prime-slider-lite' ) . '</p>';
-            $admin_message .= '<p>' . sprintf( '<a href="%s" class="button-primary">%s</a>', $install_url, esc_html__( 'Install Elementor Now', 'bdthemes-prime-slider-lite' ) ) . '</p>';
+            $admin_message = '<p>' . esc_html__( 'Ops! Prime Slider not working because you need to install the Elementor plugin', 'bdthemes-prime-slider' ) . '</p>';
+            $admin_message .= '<p>' . sprintf( '<a href="%s" class="button-primary">%s</a>', $install_url, esc_html__( 'Install Elementor Now', 'bdthemes-prime-slider' ) ) . '</p>';
         }
         
         echo  '<div class="error">' . $admin_message . '</div>' ;

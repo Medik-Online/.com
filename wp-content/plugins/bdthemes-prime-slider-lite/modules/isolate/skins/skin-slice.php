@@ -26,9 +26,9 @@ class Skin_Slice extends Elementor_Skin_Base {
 
             <?php if ($settings['show_navigation_arrows']) : ?>
             <div class="bdt-navigation-arrows">
-                <a class="bdt-prime-slider-previous" href="#" bdt-slidenav-previous bdt-slideshow-item="previous"></a>
+                <a class="bdt-prime-slider-previous" href="#" bdt-slideshow-item="previous"><i class="ps-wi-arrow-left-5"></i></a>
     
-                <a class="bdt-prime-slider-next" href="#" bdt-slidenav-next bdt-slideshow-item="next"></a>
+                <a class="bdt-prime-slider-next" href="#" bdt-slideshow-item="next"><i class="ps-wi-arrow-right-5"></i></a>
             </div>
 
         

@@ -146,7 +146,7 @@ class Custom_Settings_Page_Api
                 $label  = esc_html(@$arg['label']);
                 $class  = esc_attr(@$arg['class']);
                 $style  = esc_attr(@$arg['style']);
-                $active = remove_query_arg(array_merge(['type', 'settings-updated', 'ppsc', 'license', 'mc-audience', 'cm-email-list', 'id']), $this->current_page_url()) == $url ? ' nav-tab-active' : null;
+                $active = remove_query_arg(array_merge(['type', 'settings-updated', 'ppsc', 'license', 'mc-audience', 'cm-email-list', 'id', 'contact-info', 'edit']), $this->current_page_url()) == $url ? ' nav-tab-active' : null;
                 $html   .= "<a href=\"$url\" class=\"$class nav-tab{$active}\" style='$style'>$label</a>";
             }
 
@@ -218,15 +218,15 @@ class Custom_Settings_Page_Api
         $sanitized_data = [];
         foreach ($data as $key => $value) {
             // skip sanitation. useful for fields that expects html
-            if (apply_filters('wp_cspa_sanitize_skip', false, $key, $value)) {
-                $sanitized_data[$key] = stripslashes($data[$key]);
+            if (($cValue = apply_filters('wp_cspa_sanitize_skip', false, $key, $value))) {
+                $sanitized_data[$key] = stripslashes($cValue);
                 continue;
             }
 
             if (is_array($data[$key])) {
                 $sanitized_data[$key] = self::sanitize_data($data[$key]);
             } else {
-                $sanitized_data[$key] = stripslashes($data[$key]);
+                $sanitized_data[$key] = esc_html(stripslashes($data[$key]));
             }
         }
 
@@ -418,7 +418,7 @@ class Custom_Settings_Page_Api
             $pageURL .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
         }
 
-        return apply_filters('wp_cspa_main_current_page_url', $pageURL);
+        return apply_filters('wp_cspa_main_current_page_url', esc_url_raw($pageURL));
     }
 
 
@@ -1074,7 +1074,7 @@ public function _header($args)
     public function _footer($disable_submit_button = null)
     {
         return '</table>
-		<p><input class="button-primary" type="submit" name="save_' . $this->option_name . '" value="Save Changes"></p>
+		<p><input class="button-primary" type="submit" name="save_' . $this->option_name . '" value="'. esc_html__('Save Changes', 'wp-user-avatar'). '"></p>
 	</div>
 </div>';
     }

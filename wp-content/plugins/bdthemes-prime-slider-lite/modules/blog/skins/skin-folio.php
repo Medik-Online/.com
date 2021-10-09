@@ -32,7 +32,9 @@ class Skin_Folio extends Elementor_Skin_Base {
 
       </ul>
       </div>
+      
       <div class="bdt-ps-meta-content bdt-position-bottom bdt-flex bdt-flex-between bdt-flex-middle">
+        <?php if ( 'yes' == $settings['show_meta'] ) : ?>
           <?php if ( 'yes' == $settings['show_admin_info'] ) : ?>
             <div class="bdt-prime-slider-meta bdt-flex bdt-flex-middle" bdt-slideshow-parallax="x: 250,-250">
               <div
@@ -47,7 +49,7 @@ class Skin_Folio extends Elementor_Skin_Base {
             </div>
           <?php endif; ?>
 
-          <?php if ( 'yes' == $settings['show_meta'] ) : ?>
+          <?php if ( 'yes' == $settings['show_date'] ) : ?>
             <div class="bdt-ps-meta bdt-visible@m">
               <div class="bdt-ps-meta-item bdt-flex bdt-flex-middle"
                    bdt-slideshow-parallax="y: 140,0,-140; opacity: 1,1,0">
@@ -69,7 +71,7 @@ class Skin_Folio extends Elementor_Skin_Base {
             </div>
           <?php endif; ?>
 
-          <?php if ( 'yes' == $settings['show_meta'] ) : ?>
+          <?php if ( 'yes' == $settings['show_comments'] ) : ?>
             <div class="bdt-ps-meta bdt-visible@m">
               <div class="bdt-ps-meta-item bdt-flex bdt-flex-middle"
                    bdt-slideshow-parallax="y: 170,0,-170; opacity: 1,1,0">
@@ -84,13 +86,14 @@ class Skin_Folio extends Elementor_Skin_Base {
                 </div>
                 <div class="bdt-meta-text">
                     <span>
-                        <?php esc_html_e('Number of Comments', 'bdthemes-prime-slider'); ?><br>
+                        <?php esc_html_e('Comments By', 'bdthemes-prime-slider'); ?><br>
                         <?php echo get_comments_number(); ?>
                     </span>
                 </div>
               </div>
             </div>
           <?php endif; ?>
+        <?php endif; ?>
 
           <?php $this->parent->render_social_link($position = 'top', $label = true, $class = ['bdt-flex bdt-flex-middle']); ?>
       </div>

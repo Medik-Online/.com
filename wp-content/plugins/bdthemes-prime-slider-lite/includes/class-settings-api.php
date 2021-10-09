@@ -101,6 +101,9 @@ if ( !class_exists( 'PrimeSlider_Settings_API' ) ) :
                     continue;
                 }
                 echo '<div class="ps-options bdt-grid bdt-child-width-1-1 bdt-child-width-1-2@m bdt-child-width-1-3@l'.$section_class.'" role="presentation" bdt-grid="masonry: true">';
+
+                echo '<p class="ps-no-result bdt-text-center bdt-width-1-1 bdt-margin-small-top bdt-h4">Ops! Your Searched widget not found! Do you have any idea? If yes, <a href="https://feedback.elementpack.pro/b/3v2gg80n/feature-requests/idea/new" target="_blank">Submit here</a></p>';
+
                 $this->do_settings_fields( $page, $section['id'] );
                 echo '</div>';
             }
@@ -125,7 +128,7 @@ if ( !class_exists( 'PrimeSlider_Settings_API' ) ) :
                     $class .= ' ps-widget-' . esc_attr( $field['args']['widget_type'] );
                 }
 
-                $data_type = ' data-widget-type="' . esc_attr( $field['args']['widget_type'] ) . '" data-content-type="' . esc_attr( $field['args']['content_type'] ) . '"';
+                $data_type = ' data-widget-type="' . esc_attr( $field['args']['widget_type'] ) . '" data-content-type="' . esc_attr( $field['args']['content_type'] ) . '" data-widget-name="' . strtolower($field['args']['name']).'"';
 
                 echo "<div class='ps-option-item {$class}' {$data_type}>";
                     
@@ -747,39 +750,17 @@ if ( !class_exists( 'PrimeSlider_Settings_API' ) ) :
         function show_forms() {
             ?>
            
-            <?php foreach ( $this->settings_sections as $form ) { ?>
+            <?php $i=0; foreach ( $this->settings_sections as $form ) {  $i++;?>
                 <div id="<?php echo $form['id']; ?>_page" class="ps-option-page">
 
-                    <div bdt-filter="target: .ps-options" class="">
+                    <div bdt-filter="target: .ps-options" class="ps-options-parent" id="ps-options-parent-<?php echo $i; ?>">
 
 
                         <?php if ($form['id'] == 'prime_slider_active_modules' or $form['id'] == 'prime_slider_third_party_widget') : ?>
                         
                         <div class="bdt-widget-filter-wrapper bdt-grid">
 
-                            <div class="bdt-width-expand">
-
-                                <button class="bdt-button bdt-button-default bdt-hidden@m" type="button">Filter Widgets</button>
-                                <div bdt-dropdown="mode: click">
-                                    <ul class="bdt-nav bdt-dropdown-nav">
-                                        <li class="ps-widget-all bdt-active" bdt-filter-control="*"><a href="#">All Widgets</a></li>
-                                        <li class="ps-widget-free" bdt-filter-control="filter: [data-widget-type='free']; group: data-content-type"><a href="#">Free</a></li>
-                                        <li class="ps-widget-pro" bdt-filter-control="filter: [data-widget-type='pro']; group: data-content-type"><a href="#">Pro</a></li>
-
-                                        <li class="bdt-nav-divider"></li>
-
-                                        <li class="ps-widget-static" bdt-filter-control="filter: [data-content-type*='static']; group: data-widget-type"><a href="#">Static</a></li>
-                                        <li class="ps-widget-post" bdt-filter-control="filter: [data-content-type*='post']; group: data-widget-type"><a href="#">Post</a></li>
-                                        <li class="ps-widget-ecommerce" bdt-filter-control="filter: [data-content-type*='ecommerce']; group: data-widget-type"><a href="#">eCommerce</a></li>
-                                        <li class="ps-widget-new" bdt-filter-control="filter: [data-content-type*='new']; group: data-widget-type"><a href="#">New</a></li>
-
-	                                    <?php if ($form['id'] == 'prime_slider_third_party_widget') : ?>
-                                            <li class="ps-widget-ecommerce" bdt-filter-control="filter: [data-content-type*='ecommerce']; group: data-widget-type"><a href="#">eCommerce</a></li>
-	                                    <?php endif; ?>
-                                    </ul>
-                                </div>
-
-
+                            <div class="bdt-width-expand ps-widget-filter-nav bdt-visible@m">
                                 <ul class="bdt-subnav bdt-subnav-pill ps-widget-filter bdt-widget-type-content bdt-flex-inline bdt-visible@m">
                                     <li class="ps-widget-all bdt-active" bdt-filter-control="*"><a href="#">All</a></li>
                                     <li class="ps-widget-free" bdt-filter-control="filter: [data-widget-type='free']; group: data-content-type"><a href="#">Free</a></li>
@@ -791,6 +772,7 @@ if ( !class_exists( 'PrimeSlider_Settings_API' ) ) :
                                     <li class="ps-widget-custom" bdt-filter-control="filter: [data-content-type*='custom']; group: data-widget-type"><a href="#">Custom</a></li>
                                     <li class="ps-widget-ecommerce" bdt-filter-control="filter: [data-content-type*='ecommerce']; group: data-widget-type"><a href="#">eCommerce</a></li>
                                     <li class="ps-widget-post" bdt-filter-control="filter: [data-content-type*='post']; group: data-widget-type"><a href="#">Post</a></li>
+                                    <li class="ps-widget-carousel" bdt-filter-control="filter: [data-content-type*='carousel']; group: data-widget-type"><a href="#">Carousel</a></li>
                                     <li class="ps-widget-static" bdt-filter-control="filter: [data-content-type*='static']; group: data-widget-type"><a href="#">Static</a></li>
                                     <li class="ps-widget-new" bdt-filter-control="filter: [data-content-type*='new']; group: data-widget-type"><a href="#">New</a></li>
 
@@ -799,7 +781,11 @@ if ( !class_exists( 'PrimeSlider_Settings_API' ) ) :
                                 
                             </div>
                             
-                            <div class="bdt-width-auto">
+                            <div class="bdt-width-auto@m bdt-search-active-wrap bdt-flex bdt-flex-middle bdt-flex-between">
+                                <div class="bdt-widget-search">
+                                    <input data-id="ps-options-parent-<?php echo $i; ?>" onkeyup="filterSearch(this);" bdt-filter-control="" class="bdt-search-input bdt-flex-middle" type="search" placeholder="Search widget..." autofocus>
+                                </div>
+
                                 <ul class="bdt-subnav bdt-subnav-pill ps-widget-onoff">
                                     <li><a href="#" class="ps-active-all-widget">Active All</a></li>
                                     <li><a href="#" class="ps-deactive-all-widget">Deactive All</a></li>

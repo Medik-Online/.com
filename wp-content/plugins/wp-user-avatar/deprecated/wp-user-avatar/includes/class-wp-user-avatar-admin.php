@@ -105,8 +105,7 @@ class WP_User_Avatar_Admin extends AbstractSettingsPage
         $content .= '</p>';
 
         $content .= '<p>';
-        /** @todo add doc link here */
-        $content .= '<strong><a href="#" target="_blank">' . esc_html__('Learn more', 'wp-user-avatar') . '</a></strong>';
+        $content .= '<strong><a href="https://profilepress.net/article/avatar-shortcode/?utm_source=wp_dashboard&utm_medium=ppress-settings-page&utm_campaign=profile-cover-photo" target="_blank">' . esc_html__('Learn more', 'wp-user-avatar') . '</a></strong>';
         $content .= '</p>';
 
         return $content;

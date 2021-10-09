@@ -165,3 +165,38 @@
             return apply_filters( 'primeslider/widgets/woolamp', true );
         }
     }
+    
+    if ( !function_exists( 'ps_is_wooexpand_enabled' ) ) {
+        function ps_is_wooexpand_enabled() {
+            return apply_filters( 'primeslider/widgets/wooexpand', true );
+        }
+    }
+    
+    if ( !function_exists( 'ps_is_storker_enabled' ) ) {
+        function ps_is_storker_enabled() {
+            return apply_filters( 'primeslider/widgets/storker', true );
+        }
+    }
+    
+    if ( !function_exists( 'ps_is_knily_enabled' ) ) {
+        function ps_is_knily_enabled() {
+            return apply_filters( 'primeslider/widgets/knily', true );
+        }
+    }
+    
+    if ( !function_exists( 'ps_is_marble_enabled' ) ) {
+        function ps_is_marble_enabled() {
+            return apply_filters( 'primeslider/widgets/marble', true );
+        }
+    }
+    
+    if ( !function_exists( 'ps_is_fiestar_enabled' ) ) {
+        function ps_is_fiestar_enabled() {
+            return apply_filters( 'primeslider/widgets/fiestar', true );
+        }
+    }
+    if ( !function_exists( 'ps_is_mercury_enabled' ) ) {
+        function ps_is_mercury_enabled() {
+            return apply_filters( 'primeslider/widgets/mercury', true );
+        }
+    }

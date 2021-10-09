@@ -33,10 +33,15 @@ class EmailSettingsPage extends AbstractSettingsPage
     public function screen_option()
     {
         if (isset($_GET['view']) && $_GET['view'] == 'email') {
+            add_filter('screen_options_show_screen', '__return_false');
+
             $this->email_notification_list_table = new WPListTable($this->email_notifications());
         }
     }
 
+    /**
+     * @return mixed|void
+     */
     public function email_notifications()
     {
         $site_title = ppress_site_title();
@@ -163,6 +168,7 @@ class EmailSettingsPage extends AbstractSettingsPage
         ];
 
         if (isset($_GET['type'])) {
+
             $key  = sanitize_text_field($_GET['type']);
             $data = wp_list_filter($this->email_notifications(), ['key' => $key]);
 
@@ -172,6 +178,16 @@ class EmailSettingsPage extends AbstractSettingsPage
                 wp_safe_redirect(PPRESS_SETTINGS_SETTING_PAGE);
                 exit;
             }
+
+
+            add_filter('wp_cspa_sanitize_skip', function ($return, $fieldkey, $value) use ($key) {
+                if ($fieldkey == $key . '_email_content') {
+                    return stripslashes($value);
+                }
+
+                return $return;
+
+            }, 10, 3);
 
             $page_header = $data['title'];
 

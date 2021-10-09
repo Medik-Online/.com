@@ -1,11 +1,9 @@
 <?php
-/** List of ProfilePress global helper functions */
 
 use ProfilePress\Core\Admin\SettingsPages\MailOptin;
 use ProfilePress\Core\Base;
 use ProfilePress\Core\Classes\ExtensionManager as EM;
 use ProfilePress\Core\Classes\FormRepository as FR;
-use ProfilePress\Core\Classes\PPRESS_Session;
 use ProfilePress\Core\Classes\PROFILEPRESS_sql as PROFILEPRESS_sql;
 use ProfilePress\Core\Classes\SendEmail;
 
@@ -220,29 +218,32 @@ function ppress_login_redirect()
     } else {
         $login_redirect            = ppress_get_setting('set_login_redirect');
         $custom_url_login_redirect = ppress_get_setting('custom_url_login_redirect');
+        $referrer_url              = ppress_var($_POST, 'login_referrer_page', ppress_var($_POST, 'signup_referrer_page'));
 
-        if (isset($custom_url_login_redirect) && ! empty($custom_url_login_redirect)) {
+        if ( ! empty($custom_url_login_redirect)) {
             $redirect = $custom_url_login_redirect;
         } elseif ($login_redirect == 'dashboard') {
             $redirect = network_site_url('/wp-admin');
+        } elseif ($login_redirect == 'previous_page' && ! empty($referrer_url)) {
+            $redirect = $referrer_url;
         } elseif ('current_page' == $login_redirect) {
             // in ajax mode, pp_current_url is set so we can do client-side redirection to current page after login.
             // no way to get current url in social login hence, look it up from $_GET['pp_current_url']
             if ( ! empty($_GET['pp_current_url'])) {
                 $redirect = rawurldecode($_GET['pp_current_url']);
-            } elseif (isset($_POST['pp_current_url'])) {
-                $redirect = $_POST['pp_current_url'];
+            } elseif ( ! empty($_POST['pp_current_url'])) {
+                $redirect = rawurldecode($_POST['pp_current_url']);
             } else {
                 $redirect = ppress_get_current_url_raw();
             }
-        } elseif (isset($login_redirect) && ! empty($login_redirect)) {
+        } elseif ( ! empty($login_redirect)) {
             $redirect = get_permalink($login_redirect);
         } else {
             $redirect = network_site_url('/wp-admin');
         }
     }
 
-    return apply_filters('ppress_login_redirect', esc_url_raw($redirect));
+    return apply_filters('ppress_login_redirect', wp_validate_redirect($redirect));
 }
 
 /**
@@ -266,7 +267,7 @@ function ppress_password_reset_redirect()
         $redirect = ppress_password_reset_url() . '?password=changed';
     }
 
-    return apply_filters('ppress_do_password_reset_redirect', esc_url($redirect));
+    return apply_filters('ppress_do_password_reset_redirect', esc_url_raw($redirect));
 }
 
 /**
@@ -312,7 +313,7 @@ function ppress_my_account_url()
 
     $page_id = ppress_settings_by_key('edit_user_profile_url');
 
-    if ( ! empty($page_id)) {
+    if ( ! empty($page_id) && get_post_status($page_id)) {
         $url = get_permalink($page_id);
     }
 
@@ -330,7 +331,7 @@ function ppress_password_reset_url()
 
     $page_id = ppress_get_setting('set_lost_password_url');
 
-    if ( ! empty($page_id)) {
+    if ( ! empty($page_id) && get_post_status($page_id)) {
         $url = get_permalink($page_id);
     }
 
@@ -351,12 +352,12 @@ function ppress_login_url($redirect = '')
 
     $login_page_id = ppress_get_setting('set_login_url');
 
-    if ( ! empty($login_page_id)) {
+    if ( ! empty($login_page_id) && get_post_status($login_page_id)) {
         $login_url = get_permalink($login_page_id);
     }
 
     if ( ! empty($redirect)) {
-        $login_url = add_query_arg('redirect_to', rawurlencode($redirect), $login_url);
+        $login_url = add_query_arg('redirect_to', rawurlencode(wp_validate_redirect($redirect)), $login_url);
     }
 
     return apply_filters('ppress_login_url', $login_url);
@@ -368,9 +369,10 @@ function ppress_login_url($redirect = '')
 function ppress_registration_url()
 {
     $reg_url = wp_registration_url();
+
     $page_id = ppress_get_setting('set_registration_url');
 
-    if ( ! empty($page_id)) {
+    if ( ! empty($page_id) && get_post_status($page_id)) {
         $reg_url = get_permalink($page_id);
     }
 
@@ -958,6 +960,18 @@ function ppress_minify_css($buffer)
     return $buffer;
 }
 
+function ppress_minify_js($code)
+{
+    // make it into one long line
+    $code = str_replace(array("\n", "\r"), '', $code);
+    // replace all multiple spaces by one space
+    $code = preg_replace('!\s+!', ' ', $code);
+    // replace some unneeded spaces, modify as needed
+    $code = str_replace(array(' {', ' }', '{ ', '; '), array('{', '}', '{', ';'), $code);
+
+    return $code;
+}
+
 function ppress_get_ip_address()
 {
     $ip = '127.0.0.1';
@@ -1226,19 +1240,21 @@ function ppress_custom_fields_key_value_pair($remove_default = false)
         $defined_custom_fields[''] = esc_html__('Select...', 'wp-user-avatar');
     }
 
-    $db_custom_fields = PROFILEPRESS_sql::get_profile_custom_fields();
-    $db_contact_infos = PROFILEPRESS_sql::get_contact_info_fields();
+    if (EM::is_premium()) {
+        $db_custom_fields = PROFILEPRESS_sql::get_profile_custom_fields();
+        $db_contact_infos = PROFILEPRESS_sql::get_contact_info_fields();
 
-    if ( ! empty($db_contact_infos)) {
-        foreach ($db_contact_infos as $key => $value) {
-            $defined_custom_fields[$key] = $value;
+        if ( ! empty($db_contact_infos)) {
+            foreach ($db_contact_infos as $key => $value) {
+                $defined_custom_fields[$key] = $value;
+            }
         }
-    }
 
-    if ( ! empty($db_custom_fields)) {
-        foreach ($db_custom_fields as $db_custom_field) {
-            $field_key                         = $db_custom_field['field_key'];
-            $defined_custom_fields[$field_key] = ppress_woocommerce_field_transform($field_key, $db_custom_field['label_name']);
+        if ( ! empty($db_custom_fields)) {
+            foreach ($db_custom_fields as $db_custom_field) {
+                $field_key                         = $db_custom_field['field_key'];
+                $defined_custom_fields[$field_key] = ppress_woocommerce_field_transform($field_key, $db_custom_field['label_name']);
+            }
         }
     }
 
@@ -1400,4 +1416,32 @@ function ppress_check_type_and_ext($file, $accepted_mime_types = [], $accepted_f
     }
 
     return true;
+}
+
+function ppress_decode_html_strip_tags($val)
+{
+    return strip_tags(html_entity_decode($val));
+}
+
+function ppress_content_http_redirect($myURL)
+{
+    ?>
+    <script type="text/javascript">
+        window.location.href = "<?php echo $myURL;?>"
+    </script>
+    <meta http-equiv="refresh" content="0; url=<?php echo $myURL; ?>">
+    Please wait while you are redirected...or
+    <a href="<?php echo $myURL; ?>">Click Here</a> if you do not want to wait.
+    <?php
+}
+
+function ppress_shortcode_exist_in_post($shortcode)
+{
+    global $post;
+
+    if (isset($post->post_content) && has_shortcode($post->post_content, $shortcode)) {
+        return true;
+    }
+
+    return false;
 }

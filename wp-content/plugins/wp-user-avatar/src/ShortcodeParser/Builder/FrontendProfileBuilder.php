@@ -3,6 +3,7 @@
 namespace ProfilePress\Core\ShortcodeParser\Builder;
 
 use ProfilePress\Core\Classes\ExtensionManager as EM;
+use ProfilePress\Core\Classes\PROFILEPRESS_sql;
 
 class FrontendProfileBuilder
 {
@@ -35,14 +36,12 @@ class FrontendProfileBuilder
         add_shortcode('profile-bio', array($this, 'profile_bio'));
 
         add_shortcode('profile-cpf', array($this, 'profile_custom_profile_field'));
-
         add_shortcode('profile-file', array($this, 'profile_user_uploaded_file'));
 
         add_shortcode('profile-cover-image-url', array($this, 'cover_image_url'));
 
         add_shortcode('profile-avatar-url', array($this, 'user_avatar_url'));
-        // backward compat
-        add_shortcode('user-avatar-url', array($this, 'user_avatar_url'));
+        add_shortcode('user-avatar-url', array($this, 'user_avatar_url')); // backward compat
 
         add_shortcode('profile-hide-empty-data', array($this, 'hide_empty_data'));
 
@@ -89,11 +88,13 @@ class FrontendProfileBuilder
 
         if ($output === false) {
 
-            $posts = get_posts(array(
-                'author'         => $user_id,
-                'posts_per_page' => $limit,
-                'offset'         => 0
-            ));
+            $posts = get_posts(
+                apply_filters('ppress_frontend_profile_author_post_list_args', [
+                    'author'         => $user_id,
+                    'posts_per_page' => $limit,
+                    'offset'         => 0
+                ], $user_id, $attributes)
+            );
 
             $output = '';
 
@@ -107,7 +108,7 @@ class FrontendProfileBuilder
 
                 $output .= "</ul>";
 
-                set_transient($cache_key, $output, HOUR_IN_SECONDS);
+                set_transient($cache_key, $output, MINUTE_IN_SECONDS);
             } else {
 
                 $note = esc_html__('This user has not created any post.', 'wp-user-avatar');
@@ -339,7 +340,8 @@ class FrontendProfileBuilder
 
         $atts = shortcode_atts(
             array(
-                'key' => '',
+                'key'     => '',
+                'default' => '',
             ),
             $atts
         );
@@ -347,6 +349,12 @@ class FrontendProfileBuilder
         $key = $atts['key'];
 
         if (empty($key)) return esc_html__('Field key is missing', 'wp-user-avatar');
+
+        $type = PROFILEPRESS_sql::get_field_type($key);
+
+        if ('file' == $type) {
+            return $this->profile_user_uploaded_file($atts);
+        }
 
         $data = self::$user_data->{$key};
 
@@ -356,6 +364,10 @@ class FrontendProfileBuilder
                     return ! empty($val);
                 })
             );
+        }
+
+        if (empty($data) && ! ppress_is_boolean($data) && ! empty($atts['default'])) {
+            $data = $atts['default'];
         }
 
         return apply_filters('ppress_profile_cpf', $data, self::$user_data);
@@ -409,7 +421,8 @@ class FrontendProfileBuilder
     {
         $atts = shortcode_atts(
             array(
-                'field' => '',
+                'field'   => '',
+                'default' => ''
             ),
             $atts
         );
@@ -438,11 +451,16 @@ class FrontendProfileBuilder
             case 'last_name':
                 $key = 'last_name';
                 break;
+            case 'bio':
+                $key = 'description';
+                break;
         }
 
         if ( ! empty($key) && ! empty(self::$user_data->$key)) {
             return do_shortcode($content);
         }
+
+        return ppress_var($atts, 'default', '', true);
     }
 
     /**

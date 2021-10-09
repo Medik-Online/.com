@@ -116,7 +116,7 @@ class Forms extends AbstractSettingsPage
                             </a>
                         </li>
 
-                        <?php if ( class_exists('ProfilePress\Libsodium\Libsodium')) : ?>
+                        <?php if (class_exists('ProfilePress\Libsodium\Libsodium')) : ?>
                             <li>
                                 <a href="<?php echo $melange_url; ?>" class="<?php echo $melange_menu_active; ?>">
                                     <?php _e('Melange', 'wp-user-avatar'); ?>
@@ -156,7 +156,7 @@ class Forms extends AbstractSettingsPage
      */
     public function screen_option()
     {
-        if (isset($_GET['page'], $_GET['view']) && strpos($_GET['view'], 'edit-shortcode') !== false) return;
+        if (isset($_GET['page'], $_GET['view']) && (strpos($_GET['view'], 'edit-shortcode') !== false || strpos($_GET['view'], 'drag-drop') !== false)) return;
 
         $args = [
             'label'   => esc_html__('Forms', 'wp-user-avatar'),
@@ -196,10 +196,10 @@ class Forms extends AbstractSettingsPage
                 break;
         }
 
-        $preview_url = add_query_arg(
+        $preview_url = esc_url(add_query_arg(
             ['pp_preview_form' => absint($_GET['id']), 'type' => $form_type],
             home_url()
-        );
+        ));
 
         $html = "<a target='_blank' class=\"add-new-h2\" href=\"$preview_url\">" . esc_html__('Live Preview', 'wp-user-avatar') . '</a>';
 

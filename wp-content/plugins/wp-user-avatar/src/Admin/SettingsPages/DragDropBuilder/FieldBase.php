@@ -122,7 +122,7 @@ abstract class FieldBase implements FieldInterface
                         <?php foreach ($tabs as $tab_id => $tab_title) {
                             if ( ! empty($field_settings[$tab_id])) {
                                 ?>
-                                <a href="#<?= $tab_id ?>" class="pp-form-buider-settings-popup-tab-menu"><?= $tab_title ?></a>
+                                <a href="#<?= $tab_id ?>" class="pp-form-buider-settings-popup-tab-menu"><?= esc_html($tab_title) ?></a>
                                 <?php
                             }
                         }
@@ -228,7 +228,7 @@ abstract class FieldBase implements FieldInterface
                 <span class="pp-builder-element-icon">{{{ data.fieldIcon }}}</span>
                 <# } #>
                 <span class="pp-builder-element-header-title">{{{fieldBarTitle}}}</span>
-                <span class="pp-form-buider-settings-field-type field-bar-title">{{ data.fieldTitle }}</span>
+                <span class="pp-form-buider-settings-field-type field-bar-title">{{{ data.fieldTitle }}}</span>
                 <a href="#" class="pp-builder-element-expand-button pp-settings" title="<?php _e('Settings', 'wp-user-avatar'); ?>">
                     <span class="dashicons dashicons-admin-generic"></span>
                 </a>

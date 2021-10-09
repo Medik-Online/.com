@@ -42,7 +42,7 @@ class Isolate extends Widget_Base {
 	}
 
 	public function get_style_depends() {
-		return ['ps-isolate'];
+		return ['prime-slider-font', 'ps-isolate'];
 	}
 
 	public function get_script_depends() {
@@ -54,16 +54,8 @@ class Isolate extends Widget_Base {
 	}
 
 	public function _register_skins() {
-
-		$locate = prime_slider_option('isolate_skin_locate', 'prime_slider_active_modules', 'on' );
-		$slice  = prime_slider_option('isolate_skin_slice', 'prime_slider_active_modules', 'on' );
-
-		if ('on' == $locate) {
-			$this->add_skin(new Skins\Skin_Locate($this));
-		}
-		if ('on' == $slice) {
-			$this->add_skin(new Skins\Skin_Slice($this));
-		}
+		$this->add_skin(new Skins\Skin_Locate($this));
+		$this->add_skin(new Skins\Skin_Slice($this));
 	}
 
 	protected function _register_controls() {
@@ -241,15 +233,15 @@ class Isolate extends Widget_Base {
                 'options' => [
                     'left' => [
                         'title' => esc_html__( 'Left', 'bdthemes-prime-slider' ),
-                        'icon'  => 'fas fa-align-left',
+                        'icon'  => 'eicon-text-align-left',
                     ],
                     'center' => [
                         'title' => esc_html__( 'Center', 'bdthemes-prime-slider' ),
-                        'icon'  => 'fas fa-align-center',
+                        'icon'  => 'eicon-text-align-center',
                     ],
                     'right' => [
                         'title' => esc_html__( 'Right', 'bdthemes-prime-slider' ),
-                        'icon'  => 'fas fa-align-right',
+                        'icon'  => 'eicon-text-align-right',
                     ],
                 ],
                 'selectors' => [
@@ -354,12 +346,12 @@ class Isolate extends Widget_Base {
 				'options' => [
 					'text'    => [
 						'title' => esc_html__('Text', 'bdthemes-prime-slider'),
-						'icon'  => 'fa fa-header',
+						'icon'  => 'eicon-logo',
 					],
 
 					'image' => [
 						'title' => esc_html__('Image', 'bdthemes-prime-slider'),
-						'icon'  => 'fa fa-picture-o',
+						'icon'  => 'eicon-image',
 					],
 
 				],
@@ -535,15 +527,15 @@ class Isolate extends Widget_Base {
                 'options' => [
                     'left' => [
                         'title' => esc_html__( 'Left', 'bdthemes-prime-slider' ),
-                        'icon'  => 'fas fa-align-left',
+                        'icon'  => 'eicon-text-align-left',
                     ],
                     'center' => [
                         'title' => esc_html__( 'Center', 'bdthemes-prime-slider' ),
-                        'icon'  => 'fas fa-align-center',
+                        'icon'  => 'eicon-text-align-center',
                     ],
                     'right' => [
                         'title' => esc_html__( 'Right', 'bdthemes-prime-slider' ),
-                        'icon'  => 'fas fa-align-right',
+                        'icon'  => 'eicon-text-align-right',
                     ],
                 ],
                 'selectors' => [
@@ -1065,11 +1057,11 @@ class Isolate extends Widget_Base {
 				'options' => [
 					'960' => [
 						'title' => __('On Tablet', 'bdthemes-prime-slider'),
-						'icon'  => 'fas fa-tablet',
+						'icon'  => 'eicon-device-tablet',
 					],
 					'768' => [
 						'title' => __('On Mobile', 'bdthemes-prime-slider'),
-						'icon'  => 'fas fa-mobile',
+						'icon'  => 'eicon-device-mobile',
 					],
 				],
 				'condition' => [
@@ -3586,8 +3578,7 @@ class Isolate extends Widget_Base {
 				'label'     => __('Arrows Color', 'bdthemes-prime-slider'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-previous svg, {{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-next svg, {{WRAPPER}} .bdt-prime-slider-skin-locate .bdt-prime-slider-previous, {{WRAPPER}} .bdt-prime-slider-skin-locate .bdt-prime-slider-next' => 'color: {{VALUE}}',
-					'{{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-previous svg *, {{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-next svg *' => 'stroke: {{VALUE}}',
+					'{{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-previous i, {{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-next i, {{WRAPPER}} .bdt-prime-slider-skin-locate .bdt-prime-slider-previous, {{WRAPPER}} .bdt-prime-slider-skin-locate .bdt-prime-slider-next' => 'color: {{VALUE}}',
 					'{{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-next:before, {{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-previous:before' => 'background: {{VALUE}}',
 				],
 				'condition' => [
@@ -3714,8 +3705,7 @@ class Isolate extends Widget_Base {
 				'label'     => __('Arrows Color', 'bdthemes-prime-slider'),
 				'type'      => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-previous:hover svg, {{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-next:hover svg' => 'color: {{VALUE}}',
-					'{{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-previous:hover svg *, {{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-next:hover svg *' => 'stroke: {{VALUE}}',
+					'{{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-previous:hover i, {{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-next:hover i' => 'color: {{VALUE}}',
 					'{{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-next:before, {{WRAPPER}} .bdt-prime-slider .bdt-prime-slider-previous:before' => 'background: {{VALUE}}',
 				],
 				'condition' => [
@@ -4074,9 +4064,9 @@ class Isolate extends Widget_Base {
                 <div class="bdt-width-expand@s">
                 </div>
                 <div class="bdt-width-1-1 bdt-width-1-2@s">
-                    <a class="bdt-prime-slider-previous" href="#" bdt-slidenav-previous bdt-slideshow-item="previous"></a>
+                    <a class="bdt-prime-slider-previous" href="#" bdt-slideshow-item="previous"><i class="ps-wi-arrow-left-5"></i></a>
         
-                    <a class="bdt-prime-slider-next" href="#" bdt-slidenav-next bdt-slideshow-item="next"></a>
+                    <a class="bdt-prime-slider-next" href="#" bdt-slideshow-item="next"><i class="ps-wi-arrow-right-5"></i></a>
                 </div>
             </div>
 
@@ -4124,7 +4114,7 @@ class Isolate extends Widget_Base {
 		?>
 			<span bdt-scrollspy="cls: bdt-animation-slide-right; repeat: true" <?php $this->print_render_attribute_string('content-wrapper'); ?>>
 				<span class="bdt-scroll-icon">
-                    <span bdt-icon="icon: chevron-down"></span>
+                    <span class="ps-wi-arrow-down-4"></span>
 				</span>
 			</span>
 		<?php

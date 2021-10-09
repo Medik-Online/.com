@@ -41,6 +41,7 @@ class AjaxHandler
 
     public function menu_bar($builder_type)
     {
+        $builder_type = sanitize_text_field($builder_type);
         $melange_jbox = esc_html__('Melange is a way to combine login, registration & password reset forms in a single form.', 'wp-user-avatar');
         ?>
         <div id="pp-sub-bar">
@@ -161,7 +162,7 @@ class AjaxHandler
         $placeholder = ! empty($placeholder) ? $placeholder : '';
         ?>
         <div class="pp-form-new-list pp-optin-clear">
-            <h4><?php echo $label; ?>
+            <h4><?php echo esc_html($label); ?>
                 <input type="text" id="pp-add-form-title" placeholder="<?= $placeholder; ?>">
                 <span class="spinner pp-dash-spinner"></span>
             </h4>
@@ -171,7 +172,7 @@ class AjaxHandler
 
     public function get_forms_by_builder_type($form_type = FR::LOGIN_TYPE, $builder_type = false)
     {
-        $form_type    = ! empty($form_type) ? $form_type : FR::LOGIN_TYPE;
+        $form_type    = ! empty($form_type) ? sanitize_text_field($form_type) : FR::LOGIN_TYPE;
         $builder_type = ! $builder_type ? sanitize_text_field($_POST['data']) : $builder_type;
 
         $this->form_name_field();
@@ -267,6 +268,7 @@ class AjaxHandler
     function ajax_delete_avatar()
     {
         if (current_user_can('read')) {
+
             if ( ! wp_verify_nonce($_POST['nonce'], 'ppress-frontend-nonce')) {
                 wp_send_json(array('error' => 'nonce_failed'));
             }
@@ -289,7 +291,7 @@ class AjaxHandler
 
             $default = get_option('wp_user_cover_default_image_url', '');
 
-            wp_send_json(['success' => true, 'default' => $default]);
+            wp_send_json(['success' => true, 'default' => esc_url_raw($default)]);
         }
     }
 
@@ -371,11 +373,12 @@ class AjaxHandler
         wp_die();
     }
 
-    function ajax_login_func()
+    public function ajax_login_func()
     {
         if ( ! defined('W3GUY_LOCAL') && is_user_logged_in()) wp_send_json_error();
 
         if (isset($_REQUEST['data'])) {
+
             parse_str($_REQUEST['data'], $data); //tabbed-login-name
 
             // populate global $_POST variable.
@@ -404,7 +407,7 @@ class AjaxHandler
             $ajax_response = array('success' => true, 'redirect' => $response);
 
             if (isset($response) && is_wp_error($response)) {
-                $login_error = '<div class="' . $login_status_css_class . '">';
+                $login_error = '<div class="' . esc_attr($login_status_css_class) . '">';
                 $login_error .= $response->get_error_message();
                 $login_error .= '</div>';
 

@@ -10,6 +10,9 @@
     if ( !defined('BDTPS_NC') ) {
         define('BDTPS_NC', '<span class="bdt-ps-new-control"></span>');
     } // if you have any custom style
+    if ( !defined('BDTPS_PC') ) {
+        define('BDTPS_PC', '<span class="bdt-ps-pro-control"></span>');
+    } // if you have any custom style
 
 
 
@@ -410,6 +413,36 @@ function prime_slider_title_tags() {
     ];
 
     return $title_tags;
+}
+
+function prime_slider_time_diff($from, $to = '') {
+	$diff    = human_time_diff($from, $to);
+	$replace = array(
+		' hour'    => 'h',
+		' hours'   => 'h',
+		' day'     => 'd',
+		' days'    => 'd',
+		' minute'  => 'm',
+		' minutes' => 'm',
+		' second'  => 's',
+		' seconds' => 's',
+	);
+
+	return strtr($diff, $replace);
+}
+
+function prime_slider_post_time_diff($format = '') {
+	$displayAgo = esc_html__('ago', 'bdthemes-element-pack');
+
+	if ($format == 'short') {
+		$output = prime_slider_time_diff(strtotime(get_the_date()), current_time('timestamp'));
+	} else {
+		$output = human_time_diff(strtotime(get_the_date()), current_time('timestamp'));
+	}
+
+	$output = $output . ' ' . $displayAgo;
+
+	return $output;
 }
 
 /**

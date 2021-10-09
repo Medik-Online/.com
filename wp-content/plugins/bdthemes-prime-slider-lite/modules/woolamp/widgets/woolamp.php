@@ -27,7 +27,7 @@ class Woolamp extends Widget_Base {
 	}
 
 	public function get_icon() {
-		return 'bdt-widget-icon ps-wi-woolamp bdt-new';
+		return 'bdt-widget-icon ps-wi-woolamp';
 	}
 
 	public function get_categories() {

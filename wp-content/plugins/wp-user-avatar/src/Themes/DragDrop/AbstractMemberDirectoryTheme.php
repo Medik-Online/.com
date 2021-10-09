@@ -614,7 +614,8 @@ abstract class AbstractMemberDirectoryTheme extends AbstractTheme
                                 $index2++;
 
                                 $filter_queries .= $wpdb->prepare(
-                                    "({$wpdb->usermeta}.meta_key = '$meta_key' AND {$wpdb->usermeta}.meta_value LIKE %s)",
+                                    "({$wpdb->usermeta}.meta_key = %s AND {$wpdb->usermeta}.meta_value LIKE %s)",
+                                    $meta_key,
                                     '%' . $wpdb->esc_like($value) . '%'
                                 );
 
@@ -626,7 +627,8 @@ abstract class AbstractMemberDirectoryTheme extends AbstractTheme
                         } else {
 
                             $filter_queries .= $wpdb->prepare(
-                                "({$wpdb->usermeta}.meta_key = '$meta_key' AND {$wpdb->usermeta}.meta_value = %s)",
+                                "({$wpdb->usermeta}.meta_key = %s AND {$wpdb->usermeta}.meta_value = %s)",
+                                $meta_key,
                                 $meta_value
                             );
                         }
@@ -915,17 +917,17 @@ abstract class AbstractMemberDirectoryTheme extends AbstractTheme
 
     protected function get_results_text()
     {
-        return $this->get_meta('ppress_md_results_text');
+        return esc_html($this->get_meta('ppress_md_results_text'));
     }
 
     protected function get_single_result_text()
     {
-        return $this->get_meta('ppress_md_single_result_text');
+        return esc_html($this->get_meta('ppress_md_single_result_text'));
     }
 
     protected function get_no_result_text()
     {
-        return $this->get_meta('ppress_md_no_result_text');
+        return esc_html($this->get_meta('ppress_md_no_result_text'));
     }
 
     protected function get_default_result_number_per_page()

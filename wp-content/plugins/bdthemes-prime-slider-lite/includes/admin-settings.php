@@ -80,11 +80,10 @@ class PrimeSlider_Admin_Settings
     
     protected function prime_slider_admin_settings()
     {
-        
         if ( ps_is_general_enabled() ) {
             $settings_fields['prime_slider_active_modules'][] = [
                 'name'         => 'general',
-                'label'        => esc_html__( 'General Base', 'bdthemes-prime-slider' ),
+                'label'        => esc_html__( 'General', 'bdthemes-prime-slider' ),
                 'type'         => 'checkbox',
                 'default'      => "on",
                 'widget_type'  => 'free',
@@ -92,42 +91,11 @@ class PrimeSlider_Admin_Settings
                 'demo_url'     => 'https://primeslider.pro/demo/general/',
                 'video_url'    => 'https://youtu.be/VMBuGusjvtM',
             ];
-            $settings_fields['prime_slider_active_modules'][] = [
-                'name'         => 'general_skin_slide',
-                'label'        => esc_html__( 'General - Skin Slide', 'bdthemes-prime-slider' ),
-                'type'         => 'checkbox',
-                'default'      => "on",
-                'widget_type'  => 'free',
-                'content_type' => 'static',
-                'demo_url'     => 'https://primeslider.pro/demo/general-skin-slide/',
-                'video_url'    => 'https://youtu.be/gOiyL6_9vtc',
-            ];
-            $settings_fields['prime_slider_active_modules'][] = [
-                'name'         => 'general_skin_crelly',
-                'label'        => esc_html__( 'General - Skin Crelly', 'bdthemes-prime-slider' ),
-                'type'         => 'checkbox',
-                'default'      => "on",
-                'widget_type'  => 'free',
-                'content_type' => 'static',
-                'demo_url'     => 'https://primeslider.pro/demo/general-skin-crelly/',
-                'video_url'    => 'https://youtu.be/AkuOeqRmIjM',
-            ];
-            $settings_fields['prime_slider_active_modules'][] = [
-                'name'         => 'general_skin_meteor',
-                'label'        => esc_html__( 'General - Skin Meteor', 'bdthemes-prime-slider' ),
-                'type'         => 'checkbox',
-                'default'      => "on",
-                'widget_type'  => 'free',
-                'content_type' => 'static',
-                'demo_url'     => 'https://primeslider.pro/demo/general-skin-meteor/',
-                'video_url'    => 'https://youtu.be/bnW6hw140Vg',
-            ];
         }
-        
         if ( ps_is_flogia_enabled() ) {
             $settings_fields['prime_slider_active_modules'][] = [
                 'name'         => 'flogia',
-                'label'        => esc_html__( 'Flogia Base', 'bdthemes-prime-slider' ),
+                'label'        => esc_html__( 'Flogia', 'bdthemes-prime-slider' ),
                 'type'         => 'checkbox',
                 'default'      => "on",
                 'widget_type'  => 'free',
@@ -139,7 +107,7 @@ class PrimeSlider_Admin_Settings
         if ( ps_is_dragon_enabled() ) {
             $settings_fields['prime_slider_active_modules'][] = [
                 'name'         => 'dragon',
-                'label'        => esc_html__( 'Dragon Base', 'bdthemes-prime-slider' ),
+                'label'        => esc_html__( 'Dragon', 'bdthemes-prime-slider' ),
                 'type'         => 'checkbox',
                 'default'      => "on",
                 'widget_type'  => 'free',
@@ -148,11 +116,10 @@ class PrimeSlider_Admin_Settings
                 'video_url'    => 'https://youtu.be/eL0a9f7VEtc',
             ];
         }
-        
         if ( ps_is_isolate_enabled() ) {
             $settings_fields['prime_slider_active_modules'][] = [
                 'name'         => 'isolate',
-                'label'        => esc_html__( 'Isolate Base', 'bdthemes-prime-slider' ),
+                'label'        => esc_html__( 'Isolate', 'bdthemes-prime-slider' ),
                 'type'         => 'checkbox',
                 'default'      => "on",
                 'widget_type'  => 'free',
@@ -160,33 +127,11 @@ class PrimeSlider_Admin_Settings
                 'demo_url'     => 'https://primeslider.pro/demo/isolate/',
                 'video_url'    => 'https://youtu.be/8wlCWhSMQno',
             ];
-            $settings_fields['prime_slider_active_modules'][] = [
-                'name'         => 'isolate_skin_locate',
-                'label'        => esc_html__( 'Isolate - Skin Locate', 'bdthemes-prime-slider' ),
-                'type'         => 'checkbox',
-                'default'      => "on",
-                'widget_type'  => 'free',
-                'content_type' => 'static',
-                'demo_url'     => 'https://primeslider.pro/demo/isolate-skin-locate/',
-                'video_url'    => 'https://youtu.be/-HijcVJvTIs',
-            ];
-            $settings_fields['prime_slider_active_modules'][] = [
-                'name'         => 'isolate_skin_slice',
-                'label'        => esc_html__( 'Isolate - Skin Slice', 'bdthemes-prime-slider' ),
-                'type'         => 'checkbox',
-                'default'      => "on",
-                'widget_type'  => 'free',
-                'content_type' => 'static',
-                'demo_url'     => 'https://primeslider.pro/demo/isolate-skin-slice/',
-                'video_url'    => 'https://youtu.be/t0rxBfKY5UQ',
-            ];
         }
-        
-        
         if ( ps_is_blog_enabled() ) {
             $settings_fields['prime_slider_active_modules'][] = [
                 'name'         => 'blog',
-                'label'        => esc_html__( 'Blog Base', 'bdthemes-prime-slider' ),
+                'label'        => esc_html__( 'Blog', 'bdthemes-prime-slider' ),
                 'type'         => 'checkbox',
                 'default'      => "on",
                 'widget_type'  => 'free',
@@ -194,42 +139,23 @@ class PrimeSlider_Admin_Settings
                 'demo_url'     => 'https://primeslider.pro/demo/blog/',
                 'video_url'    => 'https://youtu.be/G32YlydUcHg',
             ];
+        }
+        if ( ps_is_fiestar_enabled() ) {
             $settings_fields['prime_slider_active_modules'][] = [
-                'name'         => 'blog_skin_coral',
-                'label'        => esc_html__( 'Blog - Skin Coral', 'bdthemes-prime-slider' ),
+                'name'         => 'fiestar',
+                'label'        => esc_html__( 'Fiestar', 'bdthemes-prime-slider' ),
                 'type'         => 'checkbox',
-                'default'      => "on",
+                'default'      => "off",
                 'widget_type'  => 'free',
-                'content_type' => 'post',
-                'demo_url'     => 'https://primeslider.pro/demo/blog-skin-coral/',
-                'video_url'    => 'https://youtu.be/1ggdO2GNAJc',
-            ];
-            $settings_fields['prime_slider_active_modules'][] = [
-                'name'         => 'blog_skin_folio',
-                'label'        => esc_html__( 'Blog - Skin Folio', 'bdthemes-prime-slider' ),
-                'type'         => 'checkbox',
-                'default'      => "on",
-                'widget_type'  => 'free',
-                'content_type' => 'post',
-                'demo_url'     => 'https://primeslider.pro/demo/blog-skin-folio/',
-                'video_url'    => 'https://youtu.be/rqT95tMDK44',
-            ];
-            $settings_fields['prime_slider_active_modules'][] = [
-                'name'         => 'blog_skin_zinest',
-                'label'        => esc_html__( 'Blog - Skin Zinest', 'bdthemes-prime-slider' ),
-                'type'         => 'checkbox',
-                'default'      => "on",
-                'widget_type'  => 'free',
-                'content_type' => 'post',
-                'demo_url'     => 'https://primeslider.pro/demo/blog-skin-zinest/',
-                'video_url'    => 'https://youtu.be/cTAkZU-8CRQ',
+                'content_type' => 'post carousel new',
+                'demo_url'     => 'https://primeslider.pro/demo/fiestar/',
+                'video_url'    => '',
             ];
         }
-        
         if ( ps_is_woocommerce_enabled() ) {
             $settings_fields['prime_slider_active_modules'][] = [
                 'name'         => 'woocommerce',
-                'label'        => esc_html__( 'WooCommerce Base', 'bdthemes-prime-slider' ),
+                'label'        => esc_html__( 'WooCommerce', 'bdthemes-prime-slider' ),
                 'type'         => 'checkbox',
                 'default'      => "on",
                 'widget_type'  => 'free',
@@ -241,11 +167,11 @@ class PrimeSlider_Admin_Settings
         if ( ps_is_woolamp_enabled() ) {
             $settings_fields['prime_slider_active_modules'][] = [
                 'name'         => 'woolamp',
-                'label'        => esc_html__( 'Woolamp Base', 'bdthemes-prime-slider' ),
+                'label'        => esc_html__( 'Woolamp', 'bdthemes-prime-slider' ),
                 'type'         => 'checkbox',
                 'default'      => "on",
                 'widget_type'  => 'free',
-                'content_type' => 'ecommerce new',
+                'content_type' => 'ecommerce',
                 'demo_url'     => 'https://primeslider.pro/demo/woolamp/',
                 'video_url'    => '',
             ];
@@ -253,7 +179,7 @@ class PrimeSlider_Admin_Settings
         if ( ps_is_multiscroll_enabled() ) {
             $settings_fields['prime_slider_active_modules'][] = [
                 'name'         => 'multiscroll',
-                'label'        => esc_html__( 'Multiscroll Base', 'bdthemes-prime-slider' ),
+                'label'        => esc_html__( 'Multiscroll', 'bdthemes-prime-slider' ),
                 'type'         => 'checkbox',
                 'default'      => "on",
                 'widget_type'  => 'free',
@@ -265,7 +191,7 @@ class PrimeSlider_Admin_Settings
         if ( ps_is_pagepiling_enabled() ) {
             $settings_fields['prime_slider_active_modules'][] = [
                 'name'         => 'pagepiling',
-                'label'        => esc_html__( 'Pagepiling Base', 'bdthemes-prime-slider' ),
+                'label'        => esc_html__( 'Pagepiling', 'bdthemes-prime-slider' ),
                 'type'         => 'checkbox',
                 'default'      => "off",
                 'widget_type'  => 'free',
@@ -277,7 +203,7 @@ class PrimeSlider_Admin_Settings
         if ( ps_is_sequester_enabled() ) {
             $settings_fields['prime_slider_active_modules'][] = [
                 'name'         => 'sequester',
-                'label'        => esc_html__( 'Sequester Base', 'bdthemes-prime-slider' ),
+                'label'        => esc_html__( 'Sequester', 'bdthemes-prime-slider' ),
                 'type'         => 'checkbox',
                 'default'      => "off",
                 'widget_type'  => 'free',
@@ -286,10 +212,34 @@ class PrimeSlider_Admin_Settings
                 'video_url'    => '',
             ];
         }
+        if ( ps_is_storker_enabled() ) {
+            $settings_fields['prime_slider_active_modules'][] = [
+                'name'         => 'storker',
+                'label'        => esc_html__( 'Storker', 'bdthemes-prime-slider' ),
+                'type'         => 'checkbox',
+                'default'      => "off",
+                'widget_type'  => 'free',
+                'content_type' => 'post new',
+                'demo_url'     => 'https://primeslider.pro/demo/storker/',
+                'video_url'    => '',
+            ];
+        }
+        if ( ps_is_mercury_enabled() ) {
+            $settings_fields['prime_slider_active_modules'][] = [
+                'name'         => 'mercury',
+                'label'        => esc_html__( 'Mercury', 'bdthemes-prime-slider' ),
+                'type'         => 'checkbox',
+                'default'      => "off",
+                'widget_type'  => 'free',
+                'content_type' => 'post new',
+                'demo_url'     => 'https://primeslider.pro/demo/mercury/',
+                'video_url'    => '',
+            ];
+        }
         if ( ps_is_mount_enabled() ) {
             $settings_fields['prime_slider_active_modules'][] = [
                 'name'         => 'mount',
-                'label'        => esc_html__( 'Mount Base', 'bdthemes-prime-slider' ),
+                'label'        => esc_html__( 'Mount', 'bdthemes-prime-slider' ),
                 'type'         => 'checkbox',
                 'default'      => "off",
                 'widget_type'  => 'free',
@@ -346,7 +296,7 @@ class PrimeSlider_Admin_Settings
                                 the next coolest website on the internet.</p>
                             <a class="bdt-button bdt-btn-red bdt-margin-small-top bdt-margin-small-right"
                                target="_blank" rel=""
-                               href="https://primeslider.pro/knowledge-base/">Go knowledge page</a>
+                               href="https://bdthemes.com/knowledge-base">Go knowledge page</a>
                             <a class="bdt-button bdt-btn-red bdt-margin-small-top" target="_blank" rel=""
                                href="https://www.facebook.com/primeslider/">Follow on Facebook</a>
 
@@ -660,6 +610,51 @@ class PrimeSlider_Admin_Settings
     {
         ?>
             <script>
+                function filterSearch(e) {
+                var parentID = '#' + jQuery(e).data('id');
+                var search = jQuery(parentID).find('.bdt-search-input').val().toLowerCase();
+                if (!search) {
+                    jQuery(parentID).find('.bdt-search-input').attr('bdt-filter-control', "");
+                    jQuery(parentID).find('.ps-widget-all').trigger('click');
+                } else {
+                    jQuery(parentID).find('.bdt-search-input').attr('bdt-filter-control', "filter: [data-widget-name*='" + search + "']");
+                    jQuery(parentID).find('.bdt-search-input').removeClass('bdt-active'); // Thanks to Bar-Rabbas
+                    jQuery(parentID).find('.bdt-search-input').trigger('click');
+                }
+            }
+
+            jQuery('.ps-options-parent').each(function(e, item) {
+                var eachItem = '#' + jQuery(item).attr('id');
+                jQuery(eachItem).on("beforeFilter", function() {
+                    jQuery(eachItem).find('.ps-no-result').removeClass('bdt-animation-shake');
+                });
+
+                jQuery(eachItem).on("afterFilter", function() {
+
+                    var isElementVisible = false;
+                    var i = 0;
+
+                    while (!isElementVisible && i < jQuery(eachItem).find(".ps-option-item").length) {
+                        if (jQuery(eachItem).find(".ps-option-item").eq(i).is(":visible")) {
+                            isElementVisible = true;
+                        }
+                        i++;
+                    }
+
+                    if (isElementVisible === false) {
+                        jQuery(eachItem).find('.ps-no-result').addClass('bdt-animation-shake');
+                    }
+                });
+
+
+            });
+
+
+            jQuery('.ps-widget-filter-nav li a').on('click', function(e) {
+                jQuery(this).closest('.bdt-widget-filter-wrapper').find('.bdt-search-input').val('');
+                jQuery(this).closest('.bdt-widget-filter-wrapper').find('.bdt-search-input').val('').attr('bdt-filter-control', '');
+            });
+
                 jQuery(document).ready(function ($) {
 
                     var hash = location.hash.substr(1);

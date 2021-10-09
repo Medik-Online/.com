@@ -16,8 +16,8 @@ class FrontendProfileTag
 
         add_action('wp', array($this, 'set_up_detected_profile'));
 
-        add_filter('pre_get_document_title', array($this, 'rewrite_profile_title'), 9999999999999999999, 1);
-        add_filter('wp_title', array($this, 'rewrite_profile_title'), 9999999999999999999, 1);
+        add_filter('pre_get_document_title', array($this, 'rewrite_profile_title'), 999999999, 1);
+        add_filter('wp_title', array($this, 'rewrite_profile_title'), 999999999, 1);
     }
 
     /**
@@ -42,9 +42,8 @@ class FrontendProfileTag
             if (is_user_logged_in()) {
                 $user = $this->get_current_user_data();
             } else {
-                $profile_slug_with_slash = ppress_get_profile_slug() . '/';
 
-                if (strpos($_SERVER['REQUEST_URI'], $profile_slug_with_slash) !== false) {
+                if (strpos($_SERVER['REQUEST_URI'], '/' . ppress_get_profile_slug() . '/') !== false) {
                     wp_safe_redirect(home_url());
                     exit;
                 }
@@ -205,8 +204,7 @@ class FrontendProfileTag
         return $title;
     }
 
-    /** Singleton instance */
-    static public function get_instance()
+    public static function get_instance()
     {
         static $instance = false;
 

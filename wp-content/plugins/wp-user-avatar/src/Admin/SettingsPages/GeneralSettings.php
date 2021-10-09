@@ -3,6 +3,7 @@
 namespace ProfilePress\Core\Admin\SettingsPages;
 
 use ProfilePress\Core\Admin\SettingsPages\EmailSettings\EmailSettingsPage;
+use ProfilePress\Core\Classes\ExtensionManager;
 use ProfilePress\Core\Classes\FormRepository;
 use ProfilePress\Custom_Settings_Page_Api;
 
@@ -17,6 +18,8 @@ class GeneralSettings extends AbstractSettingsPage
         add_action('wp_cspa_persist_settings', function () {
             flush_rewrite_rules();
         });
+
+        $this->custom_sanitize();
     }
 
     public function register_settings_page()
@@ -58,6 +61,16 @@ class GeneralSettings extends AbstractSettingsPage
 
                 return $carry;
             }, ['default' => esc_html__('My Account edit profile form (default)', 'wp-user-avatar')]);
+
+        $login_redirect_page_dropdown_args = [
+            ['key' => 'current_page', 'label' => esc_html__('Currently viewed page', 'wp-user-avatar')],
+            ['key' => '', 'label' => esc_html__('Previous/Referrer page (Pro feature)', 'wp-user-avatar'), 'disabled'=>true],
+            ['key' => 'dashboard', 'label' => esc_html__('WordPress Dashboard', 'wp-user-avatar')]
+        ];
+
+        if (ExtensionManager::is_premium()) {
+            $login_redirect_page_dropdown_args[1] = ['key' => 'previous_page', 'label' => esc_html__('Previous/Referrer page', 'wp-user-avatar')];
+        }
 
         $args = [
             'global_settings'           => apply_filters('ppress_global_settings_page', [
@@ -107,7 +120,7 @@ class GeneralSettings extends AbstractSettingsPage
                     'remove_plugin_data'    => [
                         'type'           => 'checkbox',
                         'value'          => 'yes',
-                        'label'          => esc_html__('Remove Data on Uninstall?', 'wp-user-avatar'),
+                        'label'          => esc_html__('Remove Data on Uninstall', 'wp-user-avatar'),
                         'checkbox_label' => esc_html__('Delete', 'wp-user-avatar'),
                         'description'    => esc_html__('Check this box if you would like ProfilePress to completely remove all of its data when the plugin is deleted.', 'wp-user-avatar'),
                     ]
@@ -233,7 +246,8 @@ class GeneralSettings extends AbstractSettingsPage
                             [
                                 ['key' => 'default', 'label' => esc_html__('Select...', 'wp-user-avatar')],
                                 ['key' => 'current_view_page', 'label' => esc_html__('Currently viewed page', 'wp-user-avatar')]
-                            ]
+                            ],
+                            ['skip_append_default_select' => true]
                         ) . $this->custom_text_input('custom_url_log_out'),
                     'description' => sprintf(
                         esc_html__('Select the page users will be redirected to after logout. To redirect to a custom URL instead of a selected page, enter the URL in input field directly above this description.', 'wp-user-avatar') . '%s' .
@@ -244,14 +258,7 @@ class GeneralSettings extends AbstractSettingsPage
                 'set_login_redirect'          => [
                     'type'        => 'custom_field_block',
                     'label'       => esc_html__('Login', 'wp-user-avatar'),
-                    'data'        => $this->page_dropdown(
-                            'set_login_redirect',
-                            [
-                                ['key' => 'current_page', 'label' => esc_html__('Currently viewed page', 'wp-user-avatar')],
-                                ['key' => 'dashboard', 'label' => esc_html__('WordPress Dashboard', 'wp-user-avatar')]
-                            ]
-                        )
-                                     . $this->custom_text_input('custom_url_login_redirect'),
+                    'data'        => $this->page_dropdown('set_login_redirect', $login_redirect_page_dropdown_args) . $this->custom_text_input('custom_url_login_redirect'),
                     'description' => sprintf(
                         esc_html__('Select the page or custom URL users will be redirected to after login. To redirect to a custom URL instead of a selected page, enter the URL in input field directly above this description', 'wp-user-avatar') . '%s' .
                         esc_html__('Leave the "custom URL" field empty to fallback to the selected page.', 'wp-user-avatar'),
@@ -379,6 +386,40 @@ class GeneralSettings extends AbstractSettingsPage
         $this->register_core_settings($instance, true);
         $instance->tab($this->settings_tab_args());
         $instance->build_sidebar_tab_style();
+    }
+
+    public function custom_sanitize()
+    {
+        $config = apply_filters('ppress_settings_custom_sanitize', [
+            'global_restricted_access_message' => function ($val) {
+                return wp_kses_post($val);
+            },
+            'uec_unactivated_error'            => function ($val) {
+                return wp_kses_post($val);
+            },
+            'uec_invalid_error'                => function ($val) {
+                return wp_kses_post($val);
+            },
+            'uec_success_message'              => function ($val) {
+                return wp_kses_post($val);
+            },
+            'uec_activation_resent'            => function ($val) {
+                return wp_kses_post($val);
+            },
+            'uec_already_confirm_message'      => function ($val) {
+                return wp_kses_post($val);
+            }
+        ]);
+
+        foreach ($config as $fieldKey => $callback) {
+            add_filter('wp_cspa_sanitize_skip', function ($return, $key, $value) use ($fieldKey, $callback) {
+                if ($key == $fieldKey) {
+                    return call_user_func($callback, $value);
+                }
+
+                return $return;
+            }, 10, 3);
+        }
     }
 
     public static function get_instance()

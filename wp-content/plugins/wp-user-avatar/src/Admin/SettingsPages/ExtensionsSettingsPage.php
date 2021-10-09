@@ -85,12 +85,12 @@ class ExtensionsSettingsPage extends AbstractSettingsPage
                     <div class="notice-content">
                             <span>
                                 <?= sprintf(
-                                    esc_html__('Upgrade to Premium to unlock extensions and other great features. As a valued ProfilePress Lite user, you will %1$sreceive 20%3$s off%2$s your purchase, automatically applied at checkout!', 'wp-user-avatar'),
+                                    esc_html__('Upgrade to Premium to unlock extensions and other great features. As a valued ProfilePress Lite user, you will %1$sreceive 10%3$s off%2$s your purchase, automatically applied at checkout!', 'wp-user-avatar'),
                                     '<span class="ppress-extensions-upsell-highlight">', '</span>', '%'
                                 ) ?>
                             </span>
                         <div class="ppress-extensions-upsell-button">
-                            <a target="_blank" href="https://profilepress.net/pricing/?discount=20PPOFF&utm_source=liteplugin&utm_medium=extension-page&utm_campaign=notice&utm_content=upsell" class="button-primary">
+                            <a target="_blank" href="https://profilepress.net/pricing/?discount=10PPOFF&utm_source=liteplugin&utm_medium=extension-page&utm_campaign=notice&utm_content=upsell" class="button-primary">
                                 <?= esc_html__('Upgrade Now', 'wp-user-avatar') ?>
                             </a>
                         </div>
@@ -104,7 +104,7 @@ class ExtensionsSettingsPage extends AbstractSettingsPage
                     $extension_class = ppress_var(EM::class_map(), $id);
                     $upgrade_url = "https://profilepress.net/pricing/?utm_source=WordPress&utm_campaign=liteplugin&utm_medium=extension-upgrade&utm_content=$id";
                     if ( ! EM::is_premium()) {
-                        $upgrade_url = add_query_arg('discount', '20PPOFF', $upgrade_url);
+                        $upgrade_url = add_query_arg('discount', '10PPOFF', $upgrade_url);
                     }
 
                     $upgrade_label = ! EM::is_premium() ? esc_html__('Upgrade to Premium', 'wp-user-avatar') : esc_html__('Upgrade Plan', 'wp-user-avatar');
@@ -117,13 +117,13 @@ class ExtensionsSettingsPage extends AbstractSettingsPage
                             <div class="ppress-extension-card-body<?= EM::is_premium() && $extension_class::$instance_flag && (true !== $dependency_available) ? ' ppress-unavailable' : '' ?>">
                                 <div class="ppress-extension-card-header">
                                     <?= ppress_var($extension, 'icon', '') ?>
-                                    <?= $extension['title'] ?>
+                                    <?= esc_html($extension['title']) ?>
                                 </div>
                                 <div class="ppress-extension-card-description">
-                                    <div><?= $extension['description'] ?></div>
+                                    <div><?= esc_html($extension['description']) ?></div>
                                     <div class="ppress-extension-card-learn-more">
-                                        <a href="<?= $extension['url'] ?>" target="_blank"><?= esc_html__('Learn More', 'wp-user-avatar') ?></a>
-                                        <a href="<?= $extension['url'] ?>" target="_blank" class="no-underline"> →</a>
+                                        <a href="<?= esc_url($extension['url']) ?>" target="_blank"><?= esc_html__('Learn More', 'wp-user-avatar') ?></a>
+                                        <a href="<?= esc_url($extension['url']) ?>" target="_blank" class="no-underline"> →</a>
                                     </div>
                                 </div>
                             </div>
@@ -150,8 +150,8 @@ class ExtensionsSettingsPage extends AbstractSettingsPage
 
                                 <?php else : ?>
                                     <div class="ppress-extensions-upgrade-cta">
-                                        <a class="button-primary ppress-extensions-button" href="<?= $upgrade_url ?>" target="_blank">
-                                            <?= $upgrade_label ?>
+                                        <a class="button-primary ppress-extensions-button" href="<?= esc_url($upgrade_url) ?>" target="_blank">
+                                            <?= esc_html($upgrade_label) ?>
                                         </a>
                                     </div>
                                 <?php endif; ?>

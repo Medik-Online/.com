@@ -92,6 +92,15 @@ class Prime_Slider_Loader {
 	 * @return [type] [description]
 	 */
 	private function _includes() {
+		
+		// Dynamic Select control
+		require BDTPS_PATH . 'traits/query-controls/select-input/dynamic-select-input-module.php';
+		require BDTPS_PATH . 'traits/query-controls/select-input/dynamic-select.php';
+		// Global Controls
+		require_once BDTPS_PATH . 'traits/global-widget-controls.php';
+		//require_once BDTPS_PATH . 'traits/global-swiper-controls.php';
+		//require_once BDTPS_PATH . 'traits/global-mask-controls.php';
+		
 		require BDTPS_PATH . 'includes/modules-manager.php';
 		
 		if ( ps_is_dashboard_enabled() ) {

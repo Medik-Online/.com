@@ -414,7 +414,7 @@ class FieldsShortcodeCallback
 
         if ($this->form_type == FormRepository::EDIT_PROFILE_TYPE) {
             // default username saved in DB
-            $atts['value'] = esc_attr($this->current_user->description);
+            $atts['value'] = $this->current_user->description;
         }
 
         $field_name = $this->tag_name . '_bio';
@@ -1034,7 +1034,6 @@ class FieldsShortcodeCallback
         }
 
         $processing_label = ! empty($atts['processing_label']) ? $atts['processing_label'] : FormRepository::get_processing_label($form_id, $form_type);
-
 
         $attributes = $this->field_attributes($field_name, $atts);
 

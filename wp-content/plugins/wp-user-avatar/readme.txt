@@ -1,11 +1,11 @@
-﻿=== User Registration, User Profiles, Login & Membership – ProfilePress (Formerly WP User Avatar) ===
+﻿=== User Registration, Login Form, User Profile & Membership – ProfilePress (Formerly WP User Avatar) ===
 Contributors: properfraction, collizo4sky
 Donate link: https://profilepress.net/pricing/
 Tags: user registration, user profile, registration form, membership, login form, login, registration, password reset, members, users, profile, front-end profile, edit profile, avatar, profile picture
 Requires at least: 4.7
-Requires PHP: 5.6
-Tested up to: 5.7
-Stable tag: 3.1.4
+Requires PHP: 5.6.0
+Tested up to: 5.8
+Stable tag: 3.1.19
 License: GPLv2 or later
 
 Modern membership plugin for user registration, login form, user profile, member directories & content restriction.
@@ -14,9 +14,9 @@ Modern membership plugin for user registration, login form, user profile, member
 
 = The Modern WordPress Membership & User Profile Plugin =
 
-[ProfilePress](https://profilepress.net/?utm_source=wprepo&utm_medium=link&utm_campaign=liteversion) (formerly WP User Avatar) is a lightweight membership plugin that lets you create beautiful user profiles, member directories and frontend forms for user registration, login, password reset and editing profile information. It also allows you to protect sensitive content and control user access.
+[ProfilePress](https://profilepress.net/?utm_source=wprepo&utm_medium=link&utm_campaign=liteversion) (formerly WP User Avatar) is a lightweight membership plugin that lets you create beautiful user profiles, member directories and frontend user registration form, login form, password reset and editing profile information. It also allows you to protect sensitive content and control user access.
 
-[ProfilePress](https://profilepress.net/?utm_source=wprepo&utm_medium=link&utm_campaign=liteversion) is the perfect solution for creating online communities and membership sites where users can easily register or signup to become members.
+Our Drag-and-Drop form builder makes building forms easy. It is the perfect solution for creating online communities and membership sites where users can easily register or signup to become members.
 
 [Website](https://profilepress.net/?utm_source=wprepo&utm_medium=link&utm_campaign=liteversion) | [Addons](https://profilepress.net/addons/?utm_source=wprepo&utm_medium=link&utm_campaign=liteversion) | [Documentation](https://profilepress.net/docs/?utm_source=wprepo&utm_medium=link&utm_campaign=liteversion) | [Support](https://profilepress.net/support/?utm_source=wprepo&utm_medium=link&utm_campaign=liteversion)
 
@@ -109,40 +109,26 @@ No. You can create and manage your forms, user profiles and member directories w
 3. User Registration Form
 4. Custom Login Form
 5. Drag and Drop Form builder
-7. Email Customizer and Settings
-8. My Account Page
-9. Content Protection
-10. WP User Avatar and Cover Image Settings
-11. Admin Bar and Dashboard Access
-
+6. Email Customizer and Settings
+7. My Account Page
+8. Content Protection
+9. WP User Avatar and Cover Image Settings
+10. Admin Bar and Dashboard Access
 
 == Changelog ==
 
-= 3.1.4 =
-* Security fix: Ensures only valid custom user meta are updated.
-* Security fix: validate files and images correctly before they are uploaded.
-* Fix: Avatar upload now respects resize settings when using frontend forms.
-* Fix: Added link to uploaded file when file custom field is displayed.
-* Enhancement: when a user profile doesn't exist, redirect to homepage.
-* Enhancement: Remember login by default.
+= 3.1.19 =
+* Fixed bug where html in builder settings modal wasn't parsed.
+* Added filter to disable session.
+* Further disable screen options where not needed.
 
-= 3.1.3 =
-* Fixed edge cases where post content was overridden.
-* Fixed bug where buddypress avatar override wasn't working.
-* Removed the shortcode builder due to wp.org no longer accepting code inserters.
-
-= 3.1.2 =
-* Fixed issue where registration with username requirement disabled wasn't working.
-* Fixed fatal error caused during user registration.
-
-= 3.1.1 =
-* Scoped all admin CSS to reduce conflict with other plugin admin pages.
-* Fixed incompatibility with Max Mega Menu plugin.
-* Fixed PHP 8 Fatal error: Uncaught ValueError: Unknown format specifier.
-
-= 3.1 =
-* Fixed bug where disabling admin new user notifications wasn’t working.
-* Fixed fatar error: Cannot use ProfilePress\Core\Base as Base because the name is already in use.
-* Fixed issue where myaccount js was shown on all pages.
+= 3.1.18 =
+* Added wp_redirect interceptor to prevent 301 redirect during Ajax login.
+* Added filter for frontend user profile post listing.
+* Added notice to switch to seo friendly permalink structure.
+* Fixed bug where media uploader wasn't working in rare cases.
+* Disable screen options where not needed.
+* Remove wp_login action trigger from autologin because it can break ajax signup form.
+* Enhancement: Only set alt in user avatar if it exists.
 
 See the [changelog file](https://plugins.svn.wordpress.org/wp-user-avatar/trunk/changelog.txt) for full change log information.

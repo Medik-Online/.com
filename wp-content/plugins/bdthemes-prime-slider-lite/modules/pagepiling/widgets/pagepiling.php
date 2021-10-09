@@ -429,19 +429,19 @@ class Pagepiling extends Widget_Base {
 				'options' => [
 					'left' => [
 						'title' => __( 'Left', 'bdthemes-element-pack' ),
-						'icon'  => 'fas fa-align-left',
+						'icon'  => 'eicon-text-align-left',
 					],
 					'center' => [
 						'title' => __( 'Center', 'bdthemes-element-pack' ),
-						'icon'  => 'fas fa-align-center',
+						'icon'  => 'eicon-text-align-center',
 					],
 					'right' => [
 						'title' => __( 'Right', 'bdthemes-element-pack' ),
-						'icon'  => 'fas fa-align-right',
+						'icon'  => 'eicon-text-align-right',
 					],
 					'justify' => [
 						'title' => __( 'Justified', 'bdthemes-element-pack' ),
-						'icon'  => 'fas fa-align-justify',
+						'icon'  => 'eicon-text-align-justify',
 					],
 				],
 				'selectors' => [
@@ -572,6 +572,37 @@ class Pagepiling extends Widget_Base {
 				'default' => 'yes',
 			]
 		);
+
+		// $this->add_control(
+		// 	'autoplay',
+		// 	[
+		// 		'label'   => esc_html__( 'Autoplay', 'bdthemes-element-pack' ),
+		// 		'type'    => Controls_Manager::SWITCHER,
+		// 		'render_type' => 'template',
+		// 	]
+		// );
+
+		// $this->add_control(
+		// 	'autoPlayDuration',
+		// 	[
+		// 		'label'   => esc_html__( 'AutoPlay Duration', 'bdthemes-element-pack' ),
+		// 		'type' => Controls_Manager::SLIDER,
+		// 		'default' => [
+		// 			'size' 	 => 1000,
+		// 		],
+        //         'size_units' => ['px'],
+        //         'range' => [
+        //             'px' => [
+        //                 'max' => 5000,
+        //                 'min' => 100,
+        //             ]
+        //         ],
+		// 		'render_type' => 'template',
+		// 		'condition' => [
+		// 			'autoplay' => 'yes'
+		// 		]
+		// 	]
+		// );
 
 		$this->end_controls_section();
 
@@ -1434,6 +1465,7 @@ class Pagepiling extends Widget_Base {
 					'data-settings' => [
 						wp_json_encode(array_filter([
 							"scrollingSpeed"     => $settings["scrollingSpeed"]["size"],
+							// "autoplay"       => ("yes" == $settings["autoplay"]) ? ["autoPlayDuration" => $settings["autoPlayDuration"]] : false,
 							"loopBottom"         => ("yes" == $settings["loopBottom"]) ? true : false,
 							"loopTop"            => ("yes" == $settings["loopTop"]) ? true : false,
 				        ]))

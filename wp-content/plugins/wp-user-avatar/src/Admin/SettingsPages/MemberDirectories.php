@@ -89,6 +89,10 @@ class MemberDirectories extends AbstractSettingsPage
 
         add_screen_option('per_page', $args);
 
+        if (isset($_GET['id']) || ppress_var($_GET, 'view') == 'add-new') {
+            add_filter('screen_options_show_screen', '__return_false');
+        }
+
         $this->wplist_instance = MembersDirectoryList::get_instance();
     }
 
@@ -96,10 +100,10 @@ class MemberDirectories extends AbstractSettingsPage
     {
         if ( ! isset($_GET['view'])) return;
 
-        $preview_url = add_query_arg(
+        $preview_url = esc_url(add_query_arg(
             ['pp_preview_form' => absint($_GET['id']), 'type' => FR::MEMBERS_DIRECTORY_TYPE],
             home_url()
-        );
+        ));
 
         $html = "<a target='_blank' class=\"add-new-h2\" href=\"$preview_url\">" . esc_html__('Live Preview', 'wp-user-avatar') . '</a>';
 
@@ -134,6 +138,7 @@ class MemberDirectories extends AbstractSettingsPage
 
         if ( ! empty($_GET['view']) && $_GET['view'] == 'add-new') {
             echo '<script type="text/javascript">var pp_is_member_directory = true;</script>';
+
             return AddNewForm::get_instance()->settings_admin_page();
         }
 
@@ -145,7 +150,7 @@ class MemberDirectories extends AbstractSettingsPage
 
             $shortcode_builder_page_header = sprintf(
                 '<div class="wrap ppSCB"><h2>%s %s</h2><form method="post">%s',
-                $page_header,
+                esc_html($page_header),
                 $this->live_form_preview_btn(false),
                 ppress_nonce_field()
             );
@@ -196,7 +201,7 @@ class MemberDirectories extends AbstractSettingsPage
 
     public function add_new_form_button()
     {
-        $url = add_query_arg('view', 'add-new', PPRESS_MEMBER_DIRECTORIES_SETTINGS_PAGE);
+        $url = esc_url(add_query_arg('view', 'add-new', PPRESS_MEMBER_DIRECTORIES_SETTINGS_PAGE));
         echo "<a class=\"add-new-h2\" href=\"$url\">" . esc_html__('Add New', 'wp-user-avatar') . '</a>';
     }
 

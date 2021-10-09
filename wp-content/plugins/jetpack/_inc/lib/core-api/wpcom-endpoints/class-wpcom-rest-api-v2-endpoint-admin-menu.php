@@ -158,6 +158,10 @@ class WPCOM_REST_API_V2_Endpoint_Admin_Menu extends WP_REST_Controller {
 					'description' => 'Additional text to be added inline with the menu title.',
 					'type'        => 'string',
 				),
+				'badge'      => array(
+					'description' => 'Badge to be added inline with the menu title.',
+					'type'        => 'string',
+				),
 				'slug'       => array(
 					'type' => 'string',
 				),
@@ -407,12 +411,25 @@ class WPCOM_REST_API_V2_Endpoint_Admin_Menu extends WP_REST_Controller {
 		}
 
 		if ( false !== strpos( $title, 'inline-text' ) ) {
-			preg_match( '/<span class="inline-text".+\s?>([A-Za-z0-9]+)<\/span>/', $title, $matches );
+			preg_match( '/<span class="inline-text".+\s?>(.+)<\/span>/', $title, $matches );
 
 			$text = $matches[1];
 			if ( $text ) {
 				// Keep the text in the item array.
 				$item['inlineText'] = $text;
+			}
+
+			// Finally remove the markup.
+			$title = trim( str_replace( $matches[0], '', $title ) );
+		}
+
+		if ( false !== strpos( $title, 'awaiting-mod' ) ) {
+			preg_match( '/<span class="awaiting-mod">(.+)<\/span>/', $title, $matches );
+
+			$text = $matches[1];
+			if ( $text ) {
+				// Keep the text in the item array.
+				$item['badge'] = $text;
 			}
 
 			// Finally remove the markup.

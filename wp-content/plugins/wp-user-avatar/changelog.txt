@@ -1,4 +1,91 @@
-﻿= 3.1.4 =
+﻿== Changelog ==
+
+= 3.1.19 =
+* Fixed bug where html in builder settings modal wasn't parsed.
+* Added filter to disable session.
+* Further disable screen options where not needed.
+
+= 3.1.18 =
+* Added wp_redirect interceptor to prevent 301 redirect during Ajax login.
+* Added filter for frontend user profile post listing.
+* Added notice to switch to seo friendly permalink structure.
+* Fixed bug where media uploader wasn't working in rare cases.
+* Disable screen options where not needed.
+* Remove wp_login action trigger from autologin because it can break ajax signup form.
+* Enhancement: Only set alt in user avatar if it exists.
+
+= 3.1.17 =
+* Added wp_login trigger after login.
+* Fixed issue where deleted login page causes wp-admin to 404.
+* Fixed: Undefined property: stdClass::$url.
+
+= 3.1.16 =
+* Added compatibility with a lot of 2fa plugins.
+
+= 3.1.15 =
+* Fixed bug with with My Account page not correctly rendering.
+
+= 3.1.14 =
+* Minimum PHP version now 5.6.0.
+
+= 3.1.13 =
+* Added checks to ensure pages exist before setting/redirecting to them.
+* Fixed user profile responsiveness.
+* Fixes PHP Fatal error: Uncaught Error: Class "DOMDocument" not found.
+
+= 3.1.12 =
+* Fixed issue where logout redirect wasn’t working.
+* Fixed issue where line breaks weren't maintained.
+* Fixed bug where redirect after login was to an invalid url.
+
+= 3.1.11 =
+* Fixed missing sql unescaping in member directory search.
+* Validate redirect_to urls to prevent redirect to another site.
+* XSS fix by escaping variables in tab widget.
+
+= 3.1.10 =
+* Fixed issue where bulk delete wasn't working in some cases.
+* Scoped wp_list actions to manage_options capability.
+* Fixed typos in admin setting and My Account pages.
+* Fixed broken member directory admin page design.
+* Improved sanitization and escaping of data.
+* Added file upload field support to profile-cpf shortcode.
+* Added missing bio support to profile-hide-empty-data shortcode.
+* Fixed bug where profile-slug + slash in a post slug redirected to homepage.
+* Fixed bug where custom processing labels wasn’t working for password reset forms.
+
+= 3.1.8 =
+* Fixed issue with global site access not correctly working.
+* Added success color to registration form notice.
+* Fixed bug admin bar control wasn't working.
+* Fixed bug where specifying custom roles for registration forms didn't work.
+* Improved sanitization and escaping of data in settings pages.
+* Auto paragraphed form custom messages.
+
+= 3.1.7 =
+* Enhancement: JS scripts are now conditionally loaded.
+* Fixed display issue in perfecto lite themes.
+* Added custom message when logged in users view a login and signup page.
+* Added compatibility with peters login redirect.
+* Fixed incorrect avatar size retrieval.
+* Fixed Warning: array_reduce() expects parameter 1 to be array, null given.
+
+= 3.1.6 =
+* Fixed issue where name exist check prevented the form builder from saving.
+
+= 3.1.5 =
+* Added form shortcode copying to form builder
+* Improvement: Only load tab js when needed.
+* Fixed issue where gravatar wasn’t shown for users with avatar.
+* Fixed detected builder styling issues.
+* Added default attribute to profile cpf shortcode.
+* Added edit to form action links.
+* Added filter to disable tinymce shortcode modal in post editor.
+* Added notice when avatar display is disabled.
+* Redirect myaccount page to login page when user not logged in.
+* Switch shortcode redirection to html/js redirect method.
+
+= 3.1.4 =
 * Security fix: Ensures only valid custom user meta are updated.
 * Security fix: validate files and images correctly before they are uploaded.
 * Fix: Avatar upload now respects resize settings when using frontend forms.

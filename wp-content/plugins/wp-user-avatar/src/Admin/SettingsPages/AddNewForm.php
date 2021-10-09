@@ -76,7 +76,11 @@ class AddNewForm extends AbstractSettingsPage
                                             </div>
                                             <div class="pp-half-meta">
                                                 <h2><?php _e('Shortcode Builder', 'wp-user-avatar'); ?></h2>
-                                                <p><?php _e('Code your own from scratch with complete control and flexibility using shortcodes.', 'wp-user-avatar'); ?></p>
+                                                <p><?php printf(
+                                                        __('Code your own from scratch with complete control and flexibility. %sLearn more%s.', 'wp-user-avatar'),
+                                                        '<a style="color:#2271b1;text-decoration:underline" target="_blank" href="https://profilepress.net/article/drag-drop-advanced-shortcode-builders/?utm_source=wp_dashboard&utm_medium=upgrade&utm_campaign=shortcode_builder_upsell_learnmore">', '</a>'
+                                                    ); ?>
+                                                </p>
                                             </div>
                                         </div>
                                         <button class="pp-builder-create-btn"><?php _e('Upgrade to Premium', 'wp-user-avatar'); ?></button>
@@ -92,11 +96,12 @@ class AddNewForm extends AbstractSettingsPage
 
 
         if (in_array($_GET['page'], [PPRESS_MEMBER_DIRECTORIES_SLUG])) {
-
+            echo '<div class="pp-add-new-form-wrapper">';
             AjaxHandler::get_instance()->get_forms_by_builder_type(
                 FormRepository::MEMBERS_DIRECTORY_TYPE,
                 'dragDropBuilder'
             );
+            echo '</div>';
         }
     }
 
