@@ -90,9 +90,6 @@ class Modules_Manager {
 			'dev-tools',
 			'landing-pages',
 			'compatibility-tag',
-			'elements-color-picker',
-			'shapes',
-			'admin-top-bar',
 		];
 	}
 

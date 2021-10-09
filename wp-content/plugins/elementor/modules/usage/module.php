@@ -135,15 +135,14 @@ class Module extends BaseModule {
 				'count' => $doc_count,
 			];
 
-			// ' ? 1 : 0;' In sorters is compatibility for PHP8.0.
 			// Sort usage by title.
 			uasort( $usage, function( $a, $b ) {
-				return ( $a['title'] > $b['title'] ) ? 1 : 0;
+				return ( $a['title'] > $b['title'] );
 			} );
 
 			// If title includes '-' will have lower priority.
 			uasort( $usage, function( $a ) {
-				return strpos( $a['title'], '-' ) ? 1 : 0;
+				return strpos( $a['title'], '-' );
 			} );
 		}
 
@@ -570,12 +569,7 @@ class Module extends BaseModule {
 
 				$this->add_to_global( $document->get_name(), $usage );
 			} catch ( \Exception $exception ) {
-				Plugin::$instance->logger->get_logger()->error( $exception->getMessage(), [
-					'document_id' => $document->get_id(),
-					'document_name' => $document->get_name(),
-				] );
-
-				return;
+				return; // Do nothing.
 			};
 		}
 	}
