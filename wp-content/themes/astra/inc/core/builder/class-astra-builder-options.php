@@ -20,6 +20,8 @@ add_filter( 'astra_theme_defaults', 'astra_hf_builder_customizer_defaults' );
  */
 function astra_hf_builder_customizer_defaults( $defaults ) {
 
+	$palette_css_var_prefix = Astra_Global_Palette::get_css_variable_prefix();
+
 	/**
 	 * Header Builder - Desktop Defaults.
 	 */
@@ -344,7 +346,7 @@ function astra_hf_builder_customizer_defaults( $defaults ) {
 	/**
 	 * Header Types - Defaults
 	 */
-	$defaults['transparent-header-main-sep']       = '';
+	$defaults['transparent-header-main-sep']       = ( false === astra_get_transparent_header_default_value() ) ? '' : 0;
 	$defaults['transparent-header-main-sep-color'] = '';
 
 	/**
@@ -568,7 +570,7 @@ function astra_hf_builder_customizer_defaults( $defaults ) {
 	 * Footer Copyright.
 	 */
 	$defaults['footer-copyright-editor']                 = 'Copyright [copyright] [current_year] [site_title] | Powered by [theme_author]';
-	$defaults['footer-copyright-color']                  = '#3a3a3a';
+	$defaults['footer-copyright-color']                  = '';
 	$defaults['line-height-section-footer-copyright']    = 2;
 	$defaults['footer-copyright-alignment']              = array(
 		'desktop' => 'center',
@@ -812,6 +814,23 @@ function astra_hf_builder_customizer_defaults( $defaults ) {
 	$defaults['mobile-header-label-text-transform'] = '';
 	$defaults['mobile-header-label-line-height']    = '';
 	$defaults['mobile-header-label-font-size']      = '';
+
+	/**
+	 * Global Color Palette.
+	 */
+	$defaults['global-color-palette'] = array(
+		'palette' => array(
+			'#0170B9',
+			'#3a3a3a',
+			'#3a3a3a',
+			'#4B4F58',
+			'#F5F5F5',
+			'#FFFFFF',
+			'#F2F5F7',
+			'#424242',
+			'#000000',
+		),
+	);
 
 	/**
 	* Mobile Menu
@@ -1701,4 +1720,3 @@ function prepare_menu_defaults( $defaults, $index ) {
 
 	return $defaults;
 }
-
