@@ -154,6 +154,7 @@ if ( ! class_exists( 'Astra_Header_Layout_Configs' ) ) {
 						),
 						'primary-header'
 					),
+					'divider'  => array( 'ast_class' => 'ast-bottom-divider' ),
 					'partial'  => array(
 						'selector'            => '.main-header-bar .main-navigation .main-header-menu .ast-masthead-custom-menu-items.search-custom-menu-item .ast-search-icon .astra-search-icon, .main-header-bar .main-navigation .main-header-menu .ast-masthead-custom-menu-items.woocommerce-custom-menu-item, .main-header-bar .ast-masthead-custom-menu-items.widget-custom-menu-item .ast-header-widget-area .widget.ast-no-widget-row, .main-header-bar .main-navigation .main-header-menu .ast-masthead-custom-menu-items.edd-custom-menu-item',
 						'container_inclusive' => false,
@@ -312,9 +313,9 @@ if ( ! class_exists( 'Astra_Header_Layout_Configs' ) ) {
 					),
 					'divider'  => array( 'ast_class' => 'ast-bottom-divider' ),
 					'priority' => 30,
-					'title'    => __( 'Submenu Animation', 'astra' ),
+					'title'    => __( 'Container Animation', 'astra' ),
 					'choices'  => array(
-						''           => __( 'None', 'astra' ),
+						''           => __( 'Default', 'astra' ),
 						'slide-down' => __( 'Slide Down', 'astra' ),
 						'slide-up'   => __( 'Slide Up', 'astra' ),
 						'fade'       => __( 'Fade', 'astra' ),
@@ -441,7 +442,7 @@ if ( ! class_exists( 'Astra_Header_Layout_Configs' ) ) {
 					'section'  => 'section-primary-menu',
 					'title'    => __( 'Hide Last Item in Menu on Mobile', 'astra' ),
 					'priority' => 7,
-					'divider'  => array( 'ast_class' => 'ast-bottom-divider ast-top-divider' ),
+					'divider'  => array( 'ast_class' => 'ast-bottom-divider' ),
 				),
 
 				/**

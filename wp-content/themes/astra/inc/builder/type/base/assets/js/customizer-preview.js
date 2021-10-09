@@ -515,7 +515,7 @@ function astra_builder_widget_css( builder_type = 'header' ) {
 
 		var selector = '.' + builder_type + '-widget-area[data-section="sidebar-widgets-' + builder_type + '-widget-' + index + '"]';
 
-		var section = AstraBuilderWidgetData.has_block_editor ? 'astra-sidebar-widgets-' + builder_type + '-widget-' + index : 'sidebar-widgets-' + builder_type + '-widget-' + index;
+		var section = 'sidebar-widgets-' + builder_type + '-widget-' + index;
 
 		// Widget Content Color.
 		astra_color_responsive_css(
@@ -565,10 +565,7 @@ function astra_builder_widget_css( builder_type = 'header' ) {
 		astra_builder_visibility_css( section, selector, 'block' );
 
 		(function (index) {
-
-			var marginControl = AstraBuilderWidgetData.has_block_editor ? 'astra-sidebar-widgets-' + builder_type + '-widget-' + index + '-margin' : 'sidebar-widgets-' + builder_type + '-widget-' + index + '-margin';
-
-			wp.customize( 'astra-settings[' + marginControl + ']', function( value ) {
+			wp.customize( 'astra-settings[sidebar-widgets-' + builder_type + '-widget-' + index + '-margin]', function( value ) {
 				value.bind( function( margin ) {
 					var selector = '.' + builder_type + '-widget-area[data-section="sidebar-widgets-' + builder_type + '-widget-' + index + '"]';
 					if(

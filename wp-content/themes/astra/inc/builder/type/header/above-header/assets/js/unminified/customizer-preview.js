@@ -43,22 +43,12 @@
 	} );
 
 	// Border Bottom width.
-	wp.customize( 'astra-settings[hba-header-separator]', function( value ) {
-		value.bind( function( border ) {
-
-			var color = wp.customize( 'astra-settings[hba-header-bottom-border-color]' ).get(),
-				dynamicStyle = '';
-
-			dynamicStyle += '.ast-above-header.ast-above-header-bar, .ast-above-header-bar {';
-			dynamicStyle += 'border-bottom-width: ' + border + 'px;';
-			dynamicStyle += 'border-bottom-style: solid;';
-			dynamicStyle += 'border-color:' + color + ';';
-			dynamicStyle += '}';
-
-			astra_add_dynamic_css( 'hba-header-separator', dynamicStyle );
-
-		} );
-	} );
+	astra_css(
+		'astra-settings[hba-header-separator]',
+		'border-bottom-width',
+		'.ast-above-header.ast-above-header-bar, .ast-above-header-bar',
+		'px'
+	);
 
 	// Border Color.
 	astra_css(
@@ -66,6 +56,18 @@
 		'border-color',
 		'.ast-above-header.ast-above-header-bar, .ast-above-header-bar'
 	);
+
+	astra_css(
+		'astra-settings[hba-header-bottom-border-color]',
+		'border-color',
+		'.ast-above-header-bar'
+	);
+
+	var dynamicStyle = '.ast-above-header-bar {';
+		dynamicStyle += 'border-bottom-style: solid';
+	dynamicStyle += '} ';
+
+	astra_add_dynamic_css( 'hba-header-bottom-border-color', dynamicStyle );
 
 	// Responsive BG styles > Below Header Row.
 	astra_apply_responsive_background_css( 'astra-settings[hba-header-bg-obj-responsive]', '.ast-above-header.ast-above-header-bar', 'desktop' );

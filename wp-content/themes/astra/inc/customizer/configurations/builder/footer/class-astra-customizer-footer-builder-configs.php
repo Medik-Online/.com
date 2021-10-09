@@ -48,9 +48,7 @@ class Astra_Customizer_Footer_Builder_Configs extends Astra_Customizer_Config_Ba
 	 */
 	public function register_configuration( $configurations, $wp_customize ) {
 
-		$cloned_component_track         = Astra_Builder_Helper::$component_count_array;
-		$widget_config                  = array();
-		$astra_has_widgets_block_editor = astra_has_widgets_block_editor();
+		$cloned_component_track = Astra_Builder_Helper::$component_count_array;
 
 		for ( $index = 1; $index <= Astra_Builder_Helper::$num_of_footer_html; $index++ ) {
 
@@ -86,19 +84,6 @@ class Astra_Customizer_Footer_Builder_Configs extends Astra_Customizer_Config_Ba
 				'type'    => 'widget',
 				'builder' => 'footer',
 			);
-
-			if ( $astra_has_widgets_block_editor ) {
-				$widget_config[] = array(
-					'name'     => $footer_widget_section,
-					'type'     => 'section',
-					'priority' => 5,
-					'panel'    => 'panel-footer-builder-group',
-				);
-			}
-		}
-
-		if ( $astra_has_widgets_block_editor ) {
-			$configurations = array_merge( $configurations, $widget_config );
 		}
 
 		for ( $index = 1; $index <= Astra_Builder_Helper::$num_of_footer_button; $index++ ) {

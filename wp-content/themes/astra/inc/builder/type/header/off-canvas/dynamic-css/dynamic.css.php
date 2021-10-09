@@ -27,9 +27,6 @@ add_filter( 'astra_dynamic_theme_css', 'astra_off_canvas_row_setting', 11 );
 function astra_off_canvas_row_setting( $dynamic_css, $dynamic_css_filtered = '' ) {
 
 	$selector = '.ast-mobile-popup-drawer.active';
-	if ( ! Astra_Builder_Helper::is_component_loaded( 'mobile-trigger', 'header' ) && ! is_customize_preview() ) {
-		return $dynamic_css;
-	}
 
 	$off_canvas_background       = astra_get_option( 'off-canvas-background' );
 	$off_canvas_close_color      = astra_get_option( 'off-canvas-close-color' );
@@ -38,14 +35,13 @@ function astra_off_canvas_row_setting( $dynamic_css, $dynamic_css_filtered = '' 
 	$menu_content_alignment      = 'center';
 	$inner_spacing               = astra_get_option( 'off-canvas-inner-spacing' );
 	$mobile_header_type          = astra_get_option( 'mobile-header-type' );
-	$is_site_rtl                 = is_rtl();
 
 	$inner_spacing = ( isset( $inner_spacing ) ) ? (int) $inner_spacing : '';
 
 	if ( 'flex-start' === $offcanvas_content_alignment ) {
-		$menu_content_alignment = $is_site_rtl ? 'right' : 'left';
+		$menu_content_alignment = 'left';
 	} elseif ( 'flex-end' === $offcanvas_content_alignment ) {
-		$menu_content_alignment = $is_site_rtl ? 'left' : 'right';
+		$menu_content_alignment = 'right';
 	}
 
 	if ( 'off-canvas' === $mobile_header_type || 'full-width' === $mobile_header_type || is_customize_preview() ) {
@@ -82,7 +78,7 @@ function astra_off_canvas_row_setting( $dynamic_css, $dynamic_css_filtered = '' 
 		),
 	);
 
-	$css_output[ $selector . ' .menu-toggle-close' ]['color'] = $off_canvas_close_color;
+	$css_output[ $selector . ' .ast-mobile-popup-drawer.active .menu-toggle-close' ]['color'] = $off_canvas_close_color;
 
 	/* Parse CSS from array() */
 	$css_output = astra_parse_css( $css_output );
@@ -125,9 +121,6 @@ function astra_off_canvas_row_setting( $dynamic_css, $dynamic_css_filtered = '' 
  */
 function astra_off_canvas_static_css() {
 	$off_canvas_css = '
-	.ast-off-canvas-active body.ast-main-header-nav-open {
-		overflow: hidden;
-	}
 	.ast-mobile-popup-drawer .ast-mobile-popup-overlay {
 		background-color: rgba(0, 0, 0, 0.4);
 		position: fixed;
@@ -425,6 +418,7 @@ function astra_off_canvas_static_css() {
 	return Astra_Enqueue_Scripts::trim_css( $off_canvas_css );
 }
 
+
 /**
  * Add static CSS for Dropdown Type.
  *
@@ -461,8 +455,10 @@ function astra_dropdown_type_static_css() {
 	#ast-desktop-header .ast-desktop-header-content,
 	.ast-mobile-header-content .ast-search-icon,
 	.ast-desktop-header-content .ast-search-icon,
+	.ast-off-canvas-active .ast-main-header-nav-open.ast-popup-nav-open .ast-mobile-header-wrap .ast-mobile-header-content,
 	.ast-mobile-header-wrap .ast-mobile-header-content,
 	.ast-main-header-nav-open.ast-popup-nav-open .ast-mobile-header-wrap .ast-mobile-header-content,
+	.ast-off-canvas-active .ast-main-header-nav-open.ast-popup-nav-open .ast-desktop-header-content,
 	.ast-main-header-nav-open.ast-popup-nav-open .ast-desktop-header-content {
 	  display: none;
 	}

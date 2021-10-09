@@ -44,8 +44,7 @@ if ( ! class_exists( 'Astra_Customizer_Partials' ) ) {
 		 */
 		public static function render_partial_site_tagline() {
 
-			$site_tagline_setting = astra_get_option( 'display-site-tagline-responsive' );
-			$site_tagline         = ( $site_tagline_setting['desktop'] || $site_tagline_setting['tablet'] || $site_tagline_setting['mobile'] ) ? true : false;
+			$site_tagline = astra_get_option( 'display-site-tagline' );
 
 			if ( true === $site_tagline ) {
 				return get_bloginfo( 'description', 'display' );
@@ -61,8 +60,7 @@ if ( ! class_exists( 'Astra_Customizer_Partials' ) ) {
 		 */
 		public static function render_partial_site_title() {
 
-			$site_title_setting = astra_get_option( 'display-site-title-responsive' );
-			$site_title         = ( $site_title_setting['desktop'] || $site_title_setting['tablet'] || $site_title_setting['mobile'] ) ? true : false;
+			$site_title = astra_get_option( 'display-site-title' );
 
 			if ( true === $site_title ) {
 				return get_bloginfo( 'name', 'display' );
@@ -105,11 +103,8 @@ if ( ! class_exists( 'Astra_Customizer_Partials' ) ) {
 		 * @return mixed
 		 */
 		public static function render_header_site_title_tagline() {
-			$site_title           = astra_get_option( 'display-site-title-responsive' );
-			$display_site_title   = ( $site_title['desktop'] || $site_title['tablet'] || $site_title['mobile'] ) ? true : false;
-			$site_tagline         = astra_get_option( 'display-site-tagline-responsive' );
-			$display_site_tagline = ( $site_tagline['desktop'] || $site_tagline['tablet'] || $site_tagline['mobile'] ) ? true : false;
-
+			$display_site_title   = astra_get_option( 'display-site-title' );
+			$display_site_tagline = astra_get_option( 'display-site-tagline' );
 
 			$html = astra_get_site_title_tagline( $display_site_title, $display_site_tagline );
 

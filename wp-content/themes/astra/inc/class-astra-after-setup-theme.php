@@ -162,9 +162,6 @@ if ( ! class_exists( 'Astra_After_Setup_Theme' ) ) {
 			// WooCommerce.
 			add_theme_support( 'woocommerce' );
 
-			// Rank Math Breadcrumb.
-			add_theme_support( 'rank-math-breadcrumbs' );
-
 			// Native AMP Support.
 			if ( true === apply_filters( 'astra_amp_support', true ) ) {
 				add_theme_support(
@@ -178,8 +175,6 @@ if ( ! class_exists( 'Astra_After_Setup_Theme' ) ) {
 				);
 			}
 
-			// Remove Template Editor support until WP 5.9 since more Theme Blocks are going to be introduced.
-			remove_theme_support( 'block-templates' );
 		}
 
 		/**

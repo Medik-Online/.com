@@ -148,13 +148,13 @@ if ( class_exists( 'Astra_Customizer_Config_Base' ) ) {
 						'input_attrs' => array(
 							'min'  => 0,
 							'step' => 1,
-							'max'  => 1920,
+							'max'  => 200,
 						),
 						'transport'   => 'postMessage',
 					),
 
 					/**
-					 * Option: Submenu Animation
+					 * Option: Submenu Container Animation
 					 */
 					array(
 						'name'       => ASTRA_THEME_SETTINGS . '[header-' . $_prefix . '-submenu-container-animation]',
@@ -162,19 +162,18 @@ if ( class_exists( 'Astra_Customizer_Config_Base' ) ) {
 						'type'       => 'control',
 						'control'    => 'ast-select',
 						'section'    => $_section,
-						'priority'   => 23,
-						'title'      => __( 'Submenu Animation', 'astra' ),
+						'priority'   => 31,
+						'title'      => __( 'Container Animation', 'astra' ),
 						'choices'    => array(
-							''           => __( 'None', 'astra' ),
+							''           => __( 'Default', 'astra' ),
 							'slide-down' => __( 'Slide Down', 'astra' ),
 							'slide-up'   => __( 'Slide Up', 'astra' ),
 							'fade'       => __( 'Fade', 'astra' ),
 						),
-						'context'    => Astra_Builder_Helper::$design_tab,
+						'context'    => Astra_Builder_Helper::$general_tab,
 						'transport'  => 'postMessage',
 						'responsive' => false,
 						'renderAs'   => 'text',
-						'divider'    => array( 'ast_class' => 'ast-bottom-divider' ),
 					),
 
 					// Option: Submenu Container Divider.
@@ -255,6 +254,7 @@ if ( class_exists( 'Astra_Customizer_Config_Base' ) ) {
 							'step' => 1,
 							'max'  => 200,
 						),
+						'divider'     => array( 'ast_class' => 'ast-bottom-divider' ),
 					),
 
 					// Option: Sub-Menu Border.
