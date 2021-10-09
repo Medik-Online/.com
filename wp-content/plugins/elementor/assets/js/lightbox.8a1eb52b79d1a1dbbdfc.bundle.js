@@ -1,4 +1,4 @@
-/*! elementor - v3.4.4 - 13-09-2021 */
+/*! elementor - v3.4.0 - 15-08-2021 */
 (self["webpackChunkelementor"] = self["webpackChunkelementor"] || []).push([["lightbox"],{
 
 /***/ "../assets/dev/js/frontend/utils/lightbox/lightbox.js":
@@ -225,16 +225,9 @@ module.exports = elementorModules.ViewModule.extend({
       }, options.videoParams);
       $videoElement = $('<video>', videoParams);
     } else {
-      let apiProvider = elementorFrontend.utils.baseVideoLoader;
-
-      if (-1 !== options.url.indexOf('vimeo.com')) {
-        apiProvider = elementorFrontend.utils.vimeo;
-      } else if (options.url.match(/^(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com)/)) {
-        apiProvider = elementorFrontend.utils.youtube;
-      }
-
+      const videoURL = options.url.replace('&autoplay=0', '') + '&autoplay=1';
       $videoElement = $('<iframe>', {
-        src: apiProvider.getAutoplayURL(options.url),
+        src: videoURL,
         allowfullscreen: 1
       });
     }
@@ -1016,4 +1009,4 @@ module.exports = elementorModules.ViewModule.extend({
 /***/ })
 
 }]);
-//# sourceMappingURL=lightbox.adc17e3be937246718ee.bundle.js.map
+//# sourceMappingURL=lightbox.8a1eb52b79d1a1dbbdfc.bundle.js.map

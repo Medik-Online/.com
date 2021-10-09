@@ -1,4 +1,4 @@
-/*! elementor - v3.4.4 - 13-09-2021 */
+/*! elementor - v3.4.0 - 15-08-2021 */
 (self["webpackChunkelementor"] = self["webpackChunkelementor"] || []).push([["kit-library"],{
 
 /***/ "../core/app/modules/kit-library/assets/js/components/badge.scss":
@@ -1073,7 +1073,7 @@ var _appUi = __webpack_require__(/*! @elementor/app-ui */ "@elementor/app-ui");
 function KitList(props) {
   return /*#__PURE__*/_react.default.createElement(_appUi.CssGrid, {
     spacing: 24,
-    colMinWidth: 290
+    colMinWidth: 250
   }, props.data.map(function (model) {
     return /*#__PURE__*/_react.default.createElement(_kitListItem.default, {
       key: model.id,
@@ -1806,9 +1806,7 @@ function fetchContentTypes() {
   }, {
     id: 'site-parts',
     label: __('Site Parts', 'elementor'),
-    doc_types: ['archive', 'error-404', 'footer', 'header', 'search-results', 'single-page', 'single-post', // WooCommerce types
-    'product', 'product-archive', // Legacy Types
-    '404', 'single'],
+    doc_types: ['header', 'footer', 'single', 'archive', '404'],
     order: 1
   }, {
     id: 'popup',
@@ -3281,8 +3279,6 @@ var _taxonomiesFilter = _interopRequireDefault(__webpack_require__(/*! ../../com
 
 var _useKits2 = _interopRequireWildcard(__webpack_require__(/*! ../../hooks/use-kits */ "../core/app/modules/kit-library/assets/js/hooks/use-kits.js"));
 
-var _usePageTitle = _interopRequireDefault(__webpack_require__(/*! elementor-app/hooks/use-page-title */ "../core/app/assets/js/hooks/use-page-title.js"));
-
 var _useTaxonomies2 = _interopRequireDefault(__webpack_require__(/*! ../../hooks/use-taxonomies */ "../core/app/modules/kit-library/assets/js/hooks/use-taxonomies.js"));
 
 var _appUi = __webpack_require__(/*! @elementor/app-ui */ "@elementor/app-ui");
@@ -3399,9 +3395,6 @@ function useRouterQueryParams(queryParams, setQueryParams) {
 }
 
 function Index(props) {
-  (0, _usePageTitle.default)({
-    title: __('Kit Library', 'elementor')
-  });
   var menuItems = useMenuItems(props.path);
 
   var _useKits = (0, _useKits2.default)(props.initialQueryParams),
@@ -3861,8 +3854,6 @@ var _useKit2 = _interopRequireDefault(__webpack_require__(/*! ../../hooks/use-ki
 
 var _useKitDocumentByType2 = _interopRequireDefault(__webpack_require__(/*! ../../hooks/use-kit-document-by-type */ "../core/app/modules/kit-library/assets/js/hooks/use-kit-document-by-type.js"));
 
-var _usePageTitle = _interopRequireDefault(__webpack_require__(/*! elementor-app/hooks/use-page-title */ "../core/app/assets/js/hooks/use-page-title.js"));
-
 var _router = __webpack_require__(/*! @reach/router */ "../node_modules/@reach/router/es/index.js");
 
 __webpack_require__(/*! ./overview.scss */ "../core/app/modules/kit-library/assets/js/pages/overview/overview.scss");
@@ -3895,9 +3886,6 @@ function Overview(props) {
       documentsByType = _useKitDocumentByType.data;
 
   var headerButtons = useHeaderButtons(props.id);
-  (0, _usePageTitle.default)({
-    title: kit ? "".concat(__('Kit Library', 'elementor'), " | ").concat(kit.title) : __('Loading...', 'elementor')
-  });
 
   if (isError) {
     // Will be caught by the App error boundary.
@@ -4113,8 +4101,6 @@ var _previewResponsiveControls = _interopRequireDefault(__webpack_require__(/*! 
 
 var _useKit2 = _interopRequireDefault(__webpack_require__(/*! ../../hooks/use-kit */ "../core/app/modules/kit-library/assets/js/hooks/use-kit.js"));
 
-var _usePageTitle = _interopRequireDefault(__webpack_require__(/*! elementor-app/hooks/use-page-title */ "../core/app/assets/js/hooks/use-page-title.js"));
-
 var _previewIframe = __webpack_require__(/*! ./preview-iframe */ "../core/app/modules/kit-library/assets/js/pages/preview/preview-iframe.js");
 
 var _router = __webpack_require__(/*! @reach/router */ "../node_modules/@reach/router/es/index.js");
@@ -4220,9 +4206,6 @@ function Preview(props) {
       return value === activeDevice;
     }).style;
   }, [activeDevice]);
-  (0, _usePageTitle.default)({
-    title: data ? "".concat(__('Kit Library', 'elementor'), " | ").concat(data.title) : __('Loading...', 'elementor')
-  });
 
   if (isError) {
     // Will be caught by the App error boundary.
@@ -4260,4 +4243,4 @@ Preview.propTypes = {
 /***/ })
 
 }]);
-//# sourceMappingURL=kit-library.d3688acfaab28676a99c.bundle.js.map
+//# sourceMappingURL=kit-library.192658d419d728def980.bundle.js.map
